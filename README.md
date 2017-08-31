@@ -1,7 +1,7 @@
 # Barbecue
 Game framework using SDL2
 
-*** Building for Microsoft Visual Studio 2015 ***
+## Building for Microsoft Visual Studio 2015
 
 1.) clone the repo
 
