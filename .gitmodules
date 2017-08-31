@@ -1,0 +1,6 @@
+[submodule "SDL-mirror"]
+	path = SDL-mirror
+	url = https://github.com/spurious/SDL-mirror.git
+[submodule "ThirdParty/SDL-mirror"]
+	path = ThirdParty/SDL-mirror
+	url = https://github.com/spurious/SDL-mirror.git
