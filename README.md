@@ -17,7 +17,7 @@ You will need the 64bit ones vor Visual Studio.
 
 `..\Barbecue\ThirdParty\SDL2_image-2.0.1`
 
-`..\Documents\Barbecue\ThirdParty\SDL2-2.0.5`
+`..\Barbecue\ThirdParty\SDL2-2.0.5`
 
 
 3.) In the Barbecue folder: `mkdir build && cd build`
