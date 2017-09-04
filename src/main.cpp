@@ -3,7 +3,7 @@
 /* Graphics */
 #include "../inc/Sprite.h"
 #include "../inc/SpriteSheet.h"
-
+#include "../inc/GraphicsCore.h"
 
 
 
@@ -22,6 +22,10 @@ void process_keypress() {
 	if (keycode[SDL_SCANCODE_LEFT] && keycode[SDL_SCANCODE_RIGHT]) {
 		cout << "left and right keys pressed" << endl;
 	}
+  if (keycode[SDL_SCANCODE_ESCAPE])
+  {
+    // tear down
+  }
 }
 
 
@@ -32,27 +36,20 @@ int main(int argc, char** argv)
 
 	// Init SDL2 //////////////////////////////////////
 
-	SDL_Window* window = NULL;
-
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-		cout << "couldn't init SDL2. ERROR: " << SDL_GetError() << endl;
-
-	}
-
-	window = SDL_CreateWindow("Sprite Test",
-		SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED,
-		800, 600, // 0, 0
-		0); // SDL_FULLSCREEN_DESKTOP
-
-	SDL_Renderer *rdr_main = SDL_CreateRenderer(window, -1, 0);
-	SDL_RenderSetLogicalSize(rdr_main, 320, 240);
+  // for now done in graphics core
 
 	// ! Init SDL2 //////////////////////////////////////
 
+
+  // Init Graphics Core ///////////////////////////////
+
+  GraphicsCore gCore;
+  gCore.init();
+
+  // ! Init Graphics Core /////////////////////////////
+
 	// Test SriteSheet, Sprite classes
-	
-	bbq::SpriteSheet spriteSheet(rdr_main, "C:\\Users\\Michael Eggers\\Documents\\Barbecue\\resources\\militaWarrior_36x36.png", 0x00000000);
+	bbq::SpriteSheet spriteSheet(gCore.getRenderer(), "C:\\Users\\Michael Eggers\\Documents\\Barbecue\\resources\\militaWarrior_36x36.png", 0x00000000);
 	bbq::Sprite sprite(&spriteSheet, 36, 36, 0, 36, 6);
 	bbq::Sprite sprite2(&spriteSheet, 36, 36, 0, 72, 4);
 	SDL_Rect dest = { 0, 0, 72, 72 }; // for now hardcoded where sprite should appear on screen
@@ -98,13 +95,14 @@ int main(int argc, char** argv)
 			last_update_time = SDL_GetTicks();
 		}
 		//SDL_SetRenderDrawColor(rdr_main, 0.2, 0.2, 0.2, 255);
-		SDL_RenderClear(rdr_main);
+    gCore.clear();
+		//SDL_RenderClear(rdr_main);
 		//SDL_RenderCopy(rdr_main, texture, NULL, NULL);
 
 		// SDL_RenderCopyEx same as SDL_RenderCopy but provides more features such as flipping and rotating.
-		SDL_RenderCopyEx(rdr_main, sprite.getTexture_(), &sprite.getFrame_(currentFrame), &dest, 0, NULL, SDL_FLIP_HORIZONTAL);
-		SDL_RenderCopyEx(rdr_main, sprite2.getTexture_(), &sprite2.getFrame_(currentFrame2), &dest2, 0, NULL, SDL_FLIP_NONE);
-		SDL_RenderPresent(rdr_main);
+		SDL_RenderCopyEx(gCore.getRenderer(), sprite.getTexture_(), &sprite.getFrame_(currentFrame), &dest, 0, NULL, SDL_FLIP_HORIZONTAL);
+		SDL_RenderCopyEx(gCore.getRenderer(), sprite2.getTexture_(), &sprite2.getFrame_(currentFrame2), &dest2, 0, NULL, SDL_FLIP_NONE);
+		SDL_RenderPresent(gCore.getRenderer());
 		//SDL_Delay(50); // artificial render time 
 
 		after_render_time = SDL_GetTicks();

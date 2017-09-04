@@ -11,13 +11,26 @@ set(SDL2_IMAGE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/ThirdParty/SDL2_image-2.0.1/incl
 find_package(SDL2 REQUIRED)
 #find_package(SDL2_image REQUIRED)
 
+## executable target
+
+
+## ! executable target
+
 include_directories(${SDL2_INCLUDE_DIRS} 
                     ${SDL2_IMAGE_INCLUDE_DIR}
                      )
 
 set(SDL2_IMAGE_LIBRARIES ${SDL2_IMAGE_LIBRARY})
 
-add_executable(Barbecue src/main.cpp src/Sprite.cpp src/SpriteSheet.cpp inc/Sprite.h inc/SpriteSheet.h)
+add_executable(Barbecue 
+	src/main.cpp
+	src/GraphicsCore.cpp
+	src/Sprite.cpp 
+	src/SpriteSheet.cpp 
+	inc/GraphicsCore.h
+	inc/Sprite.h 
+	inc/SpriteSheet.h)
+
 source_group("resources" FILES ${RESOURCES})
 target_link_libraries(Barbecue ${SDL2_LIBRARIES} 
 							   ${SDL2_IMAGE_LIBRARIES}

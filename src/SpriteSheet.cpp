@@ -28,7 +28,7 @@ bbq::SpriteSheet::SpriteSheet(SDL_Renderer* renderer, const char* file, Uint32 k
 	}
 
 	texture_ = SDL_CreateTextureFromSurface(renderer, surface);
-
+ 
 	SDL_FreeSurface(surface);
 	
 
