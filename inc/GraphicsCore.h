@@ -4,20 +4,21 @@
 
 #include "SDL.h"
 
-class GraphicsCore
+namespace bbq
 {
-public:
-  GraphicsCore();
-  ~GraphicsCore();
+  class GraphicsCore
+  {
+  public:
+    GraphicsCore();
+    ~GraphicsCore();
 
-  int init();
-  int clear();
-  SDL_Renderer* getRenderer();
+    int init();
+    int clear();
+    SDL_Renderer* getRenderer();
 
-private:
-  SDL_Window* window_;
-  SDL_Renderer* renderer_;
-
-  
-};
+  private:
+    SDL_Window* window_;
+    SDL_Renderer* renderer_;
+  };
+}
 

@@ -25,9 +25,11 @@ set(SDL2_IMAGE_LIBRARIES ${SDL2_IMAGE_LIBRARY})
 add_executable(Barbecue 
 	src/main.cpp
 	src/GraphicsCore.cpp
+	src/InputCore.cpp
 	src/Sprite.cpp 
 	src/SpriteSheet.cpp 
 	inc/GraphicsCore.h
+	inc/InputCore.h
 	inc/Sprite.h 
 	inc/SpriteSheet.h)
 

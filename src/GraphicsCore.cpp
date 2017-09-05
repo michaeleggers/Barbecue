@@ -1,7 +1,8 @@
 #include "../inc/GraphicsCore.h"
 
+using namespace bbq;
 
-GraphicsCore::GraphicsCore()
+GraphicsCore::GraphicsCore() : window_(nullptr), renderer_(nullptr)
 {
 }
 
