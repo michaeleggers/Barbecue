@@ -31,6 +31,7 @@ add_executable(Barbecue
 	src/GameState.cpp
 	src/GameObject.cpp
 	src/Player.cpp
+	src/BitmapFont.cpp
 	inc/GraphicsCore.h
 	inc/InputCore.h
 	inc/Sprite.h 
@@ -38,6 +39,7 @@ add_executable(Barbecue
 	inc/GameState.h
 	inc/GameObject.h
 	inc/Player.h
+	inc/BitmapFont.h
 	)
 
 source_group("resources" FILES ${RESOURCES})

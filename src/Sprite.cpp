@@ -9,12 +9,16 @@ bbq::Sprite::Sprite() : spriteSheet_(nullptr)
 }
 
 Sprite::Sprite(
-	SpriteSheet* spriteSheet, 
-	int width,
-	int height,
-	Uint32 start_x,
-	Uint32 start_y,
-	Uint8 frames)
+  SpriteSheet* spriteSheet,
+  int width,
+  int height,
+  Uint32 start_x,
+  Uint32 start_y,
+  Uint8 frames
+)
+  :
+  width_(width),
+  height_(height)
 {
 	spriteSheet_ = spriteSheet;
 	frames_ = frames;
@@ -64,35 +68,5 @@ Uint8 Sprite::frameCnt_()
 	return frames_;
 }
 
-//int Sprite::setPos(Uint32 x, Uint32 y)
-//{
-//  posAndScale_.x = x;
-//  posAndScale_.y = y;
-//
-//  return 0;
-//}
-
-//int& Sprite::getPosX()
-//{
-//  return posAndScale_.x;
-//}
-//
-//int& Sprite::getPosY()
-//{
-//  return posAndScale_.y;
-//}
-
-//int Sprite::setScale(Uint32 x, Uint32 y)
-//{
-//  posAndScale_.w *= x;
-//  posAndScale_.h *= y;
-//
-//  return 0;
-//}
-
-//SDL_Rect Sprite::getPosAndScale()
-//{
-//  return posAndScale_;
-//}
 
 

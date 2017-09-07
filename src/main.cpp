@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "SDL.h"
 /* Graphics */
 #include "../inc/Sprite.h"
@@ -6,6 +7,8 @@
 #include "../inc/GraphicsCore.h"
 /* Input */
 #include "../inc/InputCore.h"
+/* Bitmap font */
+#include "../inc/BitmapFont.h"
 /* Custom */
 #include "../inc/Player.h"
 
@@ -47,10 +50,13 @@ int main(int argc, char** argv)
 	// Test SriteSheet, Sprite classes
 	bbq::SpriteSheet spriteSheet(gCore.getRenderer(), "C:\\Users\\Michael Eggers\\Documents\\Barbecue\\resources\\militaWarrior_36x36.png", 0x00000000);
   bbq::SpriteSheet forestSheet(gCore.getRenderer(), "C:\\Users\\Michael Eggers\\Documents\\Barbecue\\resources\\bg.png", 0x00000000);
+  bbq::SpriteSheet bitmapFont(gCore.getRenderer(), "C:\\Users\\Michael Eggers\\Documents\\Barbecue\\resources\\font-pack\\bubblemad_8x8.png", 0x00000000);
 
   bbq::Sprite idleSprite(&spriteSheet, 36, 36, 0, 0, 4);
 	bbq::Sprite walkSprite(&spriteSheet, 36, 36, 0, 36, 6);
 	bbq::Sprite attackSprite(&spriteSheet, 36, 36, 0, 72, 4);
+
+  bbq::Sprite fontSprite(&bitmapFont, 8, 8, 0, 0, 83);
 
   bbq::Sprite forestSprite(&forestSheet, 982, 793, 0, 0, 1);
   SDL_Rect forestDest = { 0, 0, 982, 793 };
@@ -63,6 +69,7 @@ int main(int argc, char** argv)
   };
   Player player(playerSprites);
   Player player2(playerSprites);
+  bbq::BitmapFont font(&fontSprite, std::string("SVEN, WO IST DER SATZBAU - ALGORITHMUS?!"));
 
 	// ! Test SpriteSheet, Sprite classes
 	bool running = true;
@@ -91,33 +98,27 @@ int main(int argc, char** argv)
 
     // testing input core -> input process
     // input update
-    if (SDL_GetTicks() - last_update_time_input > 8) 
+    if (SDL_GetTicks() - last_update_time_input > 0) // not quite what the threshold should be
     {
       iCore.update();
       if (iCore.keyDown(SDL_SCANCODE_RIGHT))
       {
-        //std::cout << "right arrow key pressed" << std::endl;
         player.state_ = walk;
         player.facingState_ = facingState::right;
-        player.pos_.x += 2;
+        player.pos_.x += 8;
       }
       if (iCore.keyDown(SDL_SCANCODE_LEFT))
       {
-        //std::cout << "left arrow key pressed" << std::endl;
         player.state_ = walk;
         player.facingState_ = facingState::left;
-        player.pos_.x -= 2;
+        player.pos_.x -= 8;
       }
       if (iCore.keyDown(SDL_SCANCODE_DOWN))
       {
-        //std::cout << "down arrow key pressed" << std::endl;
-        //player.state_ = idle;
         player.pos_.y += 1;
       }
       if (iCore.keyDown(SDL_SCANCODE_UP))
       {
-        //std::cout << "up arrow key pressed" << std::endl;
-        //player.state_ = idle;
         player.pos_.y -= 1;
       }
       if (iCore.keyUp(SDL_SCANCODE_RIGHT))
@@ -140,14 +141,12 @@ int main(int argc, char** argv)
 
       if (iCore.keyDown(SDL_SCANCODE_D))
       {
-        //std::cout << "right arrow key pressed" << std::endl;
         player2.state_ = walk;
         player2.facingState_ = facingState::right;
         player2.pos_.x += 2;
       }
       if (iCore.keyDown(SDL_SCANCODE_A))
       {
-        //std::cout << "left arrow key pressed" << std::endl;
         player2.state_ = walk;
         player2.facingState_ = facingState::left;
         player2.pos_.x -= 2;
@@ -187,6 +186,7 @@ int main(int argc, char** argv)
 		SDL_RenderCopyEx(gCore.getRenderer(), forestSprite.getTexture_(), &forestSprite.getFrame_(0), &forestDest, 0, NULL, SDL_FLIP_NONE);
     player.draw(gCore.getRenderer(), currentFrame);
     player2.draw(gCore.getRenderer(), currentFrame2);
+    font.draw(gCore.getRenderer(), 0);
 		SDL_RenderPresent(gCore.getRenderer());
 		//SDL_Delay(100); // artificial render time 
 
@@ -197,11 +197,7 @@ int main(int argc, char** argv)
     {
 			SDL_Delay(DELAY_TIME - time_needed);
 		}
-		//cout << "time_needed: " << time_needed << endl;
-		//cout << "FPS: " << 1000.0f / time_needed << endl;
 
-		// check current frame
-    
 	}
 
 

@@ -24,12 +24,12 @@ int GraphicsCore::init()
     "Barbecue",
     SDL_WINDOWPOS_UNDEFINED,
     SDL_WINDOWPOS_UNDEFINED,
-    800, 600,
+    1024, 768,
     0
-  );
+    );
 
-  renderer_ = SDL_CreateRenderer(window_, -1, 0);
-  SDL_RenderSetLogicalSize(renderer_, 320, 240);
+  renderer_ = SDL_CreateRenderer(window_, -1, SDL_RENDERER_ACCELERATED);
+  SDL_RenderSetLogicalSize(renderer_, 1024, 768);
 
   return errorCode;
 }
