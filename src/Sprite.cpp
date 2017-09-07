@@ -4,6 +4,10 @@
 
 using namespace bbq;
 
+bbq::Sprite::Sprite() : spriteSheet_(nullptr)
+{
+}
+
 Sprite::Sprite(
 	SpriteSheet* spriteSheet, 
 	int width,
@@ -34,7 +38,7 @@ Sprite::Sprite(
 		std::cout << "frame " << index << ", x: " << frame.x << ", y: " << frame.y << std::endl;
 	}
 
-  posAndScale_ = { 0, 0, width, height };
+  //posAndScale_ = { 0, 0, width, height };
 }
 
 Sprite::~Sprite()
@@ -48,6 +52,10 @@ SDL_Texture * Sprite::getTexture_()
 
 SDL_Rect Sprite::getFrame_(Uint8 index)
 {
+  if (index >= frameCnt_())
+  {
+    return frameRegions_.at(0);
+  }
 	return frameRegions_.at(index);
 }
 
@@ -56,35 +64,35 @@ Uint8 Sprite::frameCnt_()
 	return frames_;
 }
 
-int Sprite::setPos(Uint32 x, Uint32 y)
-{
-  posAndScale_.x = x;
-  posAndScale_.y = y;
+//int Sprite::setPos(Uint32 x, Uint32 y)
+//{
+//  posAndScale_.x = x;
+//  posAndScale_.y = y;
+//
+//  return 0;
+//}
 
-  return 0;
-}
+//int& Sprite::getPosX()
+//{
+//  return posAndScale_.x;
+//}
+//
+//int& Sprite::getPosY()
+//{
+//  return posAndScale_.y;
+//}
 
-int& Sprite::getPosX()
-{
-  return posAndScale_.x;
-}
+//int Sprite::setScale(Uint32 x, Uint32 y)
+//{
+//  posAndScale_.w *= x;
+//  posAndScale_.h *= y;
+//
+//  return 0;
+//}
 
-int& Sprite::getPosY()
-{
-  return posAndScale_.y;
-}
-
-int Sprite::setScale(Uint32 x, Uint32 y)
-{
-  posAndScale_.w *= x;
-  posAndScale_.h *= y;
-
-  return 0;
-}
-
-SDL_Rect Sprite::getPosAndScale()
-{
-  return posAndScale_;
-}
+//SDL_Rect Sprite::getPosAndScale()
+//{
+//  return posAndScale_;
+//}
 
 

@@ -14,6 +14,7 @@ namespace bbq
 	class Sprite
 	{
 	public:
+    Sprite();
 		Sprite(
 			SpriteSheet* spriteSheet,
 			int width, 
@@ -27,17 +28,17 @@ namespace bbq
 		SDL_Texture* getTexture_();
 		SDL_Rect getFrame_(Uint8);
 		Uint8 frameCnt_();
-    int setPos(Uint32 x, Uint32 y);
-    int& getPosX();
-    int& getPosY();
-    int setScale(Uint32 x, Uint32 y);
-    SDL_Rect getPosAndScale();
+    //int setPos(Uint32 x, Uint32 y);
+    //int& getPosX();
+    //int& getPosY();
+    //int setScale(Uint32 x, Uint32 y);
+    //SDL_Rect getPosAndScale();
 
 	private:
 		SpriteSheet* spriteSheet_;
 		std::vector<SDL_Rect> frameRegions_;
 		uint8_t frames_;
-    SDL_Rect posAndScale_;
+    //SDL_Rect posAndScale_;
 	};
 
 }

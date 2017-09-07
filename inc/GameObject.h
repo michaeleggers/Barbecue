@@ -1,5 +1,6 @@
 #pragma once
 
+#include "SDL.h"
 
 namespace bbq
 {
@@ -11,7 +12,7 @@ namespace bbq
     virtual ~GameObject();
 
     virtual void update() = 0;
-    virtual void draw() = 0;
+    virtual void draw(SDL_Renderer*, int currentFrame = 0) = 0;
 
   };
 }
