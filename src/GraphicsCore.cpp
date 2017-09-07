@@ -25,7 +25,7 @@ int GraphicsCore::init()
     SDL_WINDOWPOS_UNDEFINED,
     SDL_WINDOWPOS_UNDEFINED,
     800, 600,
-    0
+    1
   );
 
   renderer_ = SDL_CreateRenderer(window_, -1, 0);

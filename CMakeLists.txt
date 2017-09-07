@@ -27,11 +27,18 @@ add_executable(Barbecue
 	src/GraphicsCore.cpp
 	src/InputCore.cpp
 	src/Sprite.cpp 
-	src/SpriteSheet.cpp 
+	src/SpriteSheet.cpp
+	src/GameState.cpp
+	src/GameObject.cpp
+	src/Player.cpp
 	inc/GraphicsCore.h
 	inc/InputCore.h
 	inc/Sprite.h 
-	inc/SpriteSheet.h)
+	inc/SpriteSheet.h
+	inc/GameState.h
+	inc/GameObject.h
+	inc/Player.h
+	)
 
 source_group("resources" FILES ${RESOURCES})
 target_link_libraries(Barbecue ${SDL2_LIBRARIES} 

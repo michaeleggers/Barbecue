@@ -44,7 +44,7 @@ int main(int argc, char** argv)
 
 	// Test SriteSheet, Sprite classes
 	bbq::SpriteSheet spriteSheet(gCore.getRenderer(), "C:\\Users\\Michael Eggers\\Documents\\Barbecue\\resources\\militaWarrior_36x36.png", 0x00000000);
-	bbq::Sprite sprite(&spriteSheet, 36, 36, 0, 36, 1);
+	bbq::Sprite sprite(&spriteSheet, 36, 36, 0, 36, 6);
 	bbq::Sprite sprite2(&spriteSheet, 36, 36, 0, 72, 4);
   sprite.setScale(2, 2);
 	SDL_Rect dest2 = { 72, 72, 72, 72 };
@@ -79,22 +79,37 @@ int main(int argc, char** argv)
 
     // testing input core -> input process
     // input update
-    //if (SDL_GetTicks() - last_update_time_input > 1000.0f / FPS) 
+    if (SDL_GetTicks() - last_update_time_input > 10) 
     {
       iCore.update();
       if (iCore.keyDown(SDL_SCANCODE_RIGHT))
       {
         std::cout << std::to_string(5.f * time_needed) << std::endl;
-        destX += 10;
+        destX += 5;
       }
       if (iCore.keyDown(SDL_SCANCODE_LEFT))
       {
         //std::cout << "left arrow key pressed" << std::endl;
-        destX -= 10;
+        destX -= 5;
       }
-      //last_update_time_input = SDL_GetTicks();
+      if (iCore.keyDown(SDL_SCANCODE_DOWN))
+      {
+        //std::cout << "left arrow key pressed" << std::endl;
+        destY += 5;
+      }
+      if (iCore.keyDown(SDL_SCANCODE_UP))
+      {
+        //std::cout << "left arrow key pressed" << std::endl;
+        destY -= 5;
+      }
+      if (iCore.keyDown(SDL_SCANCODE_ESCAPE))
+      {
+        //std::cout << "left arrow key pressed" << std::endl;
+        running = false;
+      }
+      last_update_time_input = SDL_GetTicks();
     }
-    sprite.setPos((int)destX, (int)destY);
+      sprite.setPos((int)destX, (int)destY);
 
 		// for controlling update speed of animation
 		if (SDL_GetTicks() - last_update_time > 100) {
