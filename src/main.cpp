@@ -9,6 +9,8 @@
 #include "../inc/InputCore.h"
 /* Bitmap font */
 #include "../inc/BitmapFont.h"
+/* Ascii TileMap */
+#include "../inc/TileMap.h"
 /* Custom */
 #include "../inc/Player.h"
 
@@ -51,11 +53,12 @@ int main(int argc, char** argv)
 	bbq::SpriteSheet spriteSheet(gCore.getRenderer(), "C:\\Users\\Michael Eggers\\Documents\\Barbecue\\resources\\militaWarrior_36x36.png", 0x00000000);
   bbq::SpriteSheet forestSheet(gCore.getRenderer(), "C:\\Users\\Michael Eggers\\Documents\\Barbecue\\resources\\bg.png", 0x00000000);
   bbq::SpriteSheet bitmapFont(gCore.getRenderer(), "C:\\Users\\Michael Eggers\\Documents\\Barbecue\\resources\\font-pack\\bubblemad_8x8.png", 0x00000000);
+  bbq::SpriteSheet mapSheet(gCore.getRenderer(), "C:\\Users\\Michael Eggers\\Documents\\Barbecue\\resources\\worldmap16x16.png", 0x00000000);
 
   bbq::Sprite idleSprite(&spriteSheet, 36, 36, 0, 0, 4);
 	bbq::Sprite walkSprite(&spriteSheet, 36, 36, 0, 36, 6);
 	bbq::Sprite attackSprite(&spriteSheet, 36, 36, 0, 72, 4);
-
+  bbq::Sprite mapSprite(&mapSheet, 16, 16, 0, 0, 160);
   bbq::Sprite fontSprite(&bitmapFont, 8, 8, 0, 0, 83);
 
   bbq::Sprite forestSprite(&forestSheet, 982, 793, 0, 0, 1);
@@ -70,6 +73,8 @@ int main(int argc, char** argv)
   Player player(playerSprites);
   Player player2(playerSprites);
   bbq::BitmapFont font(&fontSprite, std::string("SVEN, WO IST DER SATZBAU - ALGORITHMUS?!"));
+
+  bbq::TileMap map("C:\\Users\\Michael Eggers\\Documents\\Barbecue\\resources\\asciimap.txt", 12, 8, &mapSprite);
 
 	// ! Test SpriteSheet, Sprite classes
 	bool running = true;
@@ -184,9 +189,10 @@ int main(int argc, char** argv)
 
 		// SDL_RenderCopyEx same as SDL_RenderCopy but provides more features such as flipping and rotating.
 		SDL_RenderCopyEx(gCore.getRenderer(), forestSprite.getTexture_(), &forestSprite.getFrame_(0), &forestDest, 0, NULL, SDL_FLIP_NONE);
+    font.draw(gCore.getRenderer(), 0);
+    map.draw(gCore.getRenderer(), 0);
     player.draw(gCore.getRenderer(), currentFrame);
     player2.draw(gCore.getRenderer(), currentFrame2);
-    font.draw(gCore.getRenderer(), 0);
 		SDL_RenderPresent(gCore.getRenderer());
 		//SDL_Delay(100); // artificial render time 
 

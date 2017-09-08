@@ -32,6 +32,7 @@ add_executable(Barbecue
 	src/GameObject.cpp
 	src/Player.cpp
 	src/BitmapFont.cpp
+	src/TileMap.cpp
 	inc/GraphicsCore.h
 	inc/InputCore.h
 	inc/Sprite.h 
@@ -40,6 +41,7 @@ add_executable(Barbecue
 	inc/GameObject.h
 	inc/Player.h
 	inc/BitmapFont.h
+	inc/TileMap.h
 	)
 
 source_group("resources" FILES ${RESOURCES})
