@@ -27,7 +27,7 @@ namespace bbq
 		width = w.GetInt();
 		height = h.GetInt();
 
-		map = (Tile*)malloc(width*height * sizeof(Tile));
+		map = (TileType*)malloc(width*height * sizeof(TileType));
 
 		Value& layers = d["layers"];
 		auto layers_list = layers.GetArray();
@@ -41,8 +41,29 @@ namespace bbq
 		{
 			Value& map_tile = map_actual_data[i];
 			int id = map_tile.GetInt();
+			TileType type = TileType::Free;
 
-			Tile* tile = new (map + i) Tile(TileType::Free, i % width, i / width, nullptr, this);
+			if (id == 0)
+			{
+				type = TileType::Free;
+			}
+			else if (id == 1)
+			{
+				type = TileType::Free;
+			}
+			else if (id == 2)
+			{
+				type = TileType::Box;
+			}
+			else if (id == 3)
+			{
+				type = TileType::Wall;
+			}
+			else if (id == 4)
+			{
+				type = TileType::Player1;
+			}
+			*(map + i) = type;
 		}
 	}
 }

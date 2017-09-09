@@ -24,7 +24,8 @@ size_t delay = 100;
 const int FPS = 60;
 const float DELAY_TIME = 1000.0f / FPS;
 
-std::map<bbq::TileType, bbq::Sprite> type_to_sprite;
+std::map<bbq::TileType, bbq::Sprite*> type_to_sprite;
+std::map<bbq::TileType, int> type_to_sprite_idx;
 
 int main(int argc, char** argv)
 {
@@ -52,6 +53,23 @@ int main(int argc, char** argv)
 	bbq::Map fooooo;
 	fooooo.Load("..\\resources\\map\\test.json");
 
+	bbq::SpriteSheet sheet(gCore.getRenderer(), "..\\resources\\map.png", 0x00000000);
+	bbq::Sprite sprite(&sheet, 64, 64, 0, 0, 3);
+
+	type_to_sprite[bbq::TileType::Player1] = &sprite;
+	type_to_sprite_idx[bbq::TileType::Player1] = 0;
+	
+	type_to_sprite[bbq::TileType::Free] = &sprite;
+	type_to_sprite_idx[bbq::TileType::Free] = 1;
+
+	type_to_sprite[bbq::TileType::Box] = &sprite;
+	type_to_sprite_idx[bbq::TileType::Box] = 2;
+
+		/*
+		Player1,
+		Player2,
+		Free,
+		Box*/
 	
 	Player player(playerSprites);
 	Player player2(playerSprites);
