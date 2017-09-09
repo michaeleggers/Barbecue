@@ -9,6 +9,7 @@
 #include <sstream>
 #include "../inc/GameObject.h"
 #include "../inc/Sprite.h"
+#include "../inc./Map.h"
 
 namespace bbq
 {
