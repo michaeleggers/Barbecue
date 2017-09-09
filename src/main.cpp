@@ -41,6 +41,8 @@ bbq::InputCore iCore;
 bbq::Map fooooo;
 bbq::TileMap map;
 
+int last_update_time = 0;
+
 //SDL_AudioSpec wavSpec;
 //Uint32 wavLength;
 //Uint8 *wavBuffer;
@@ -94,8 +96,22 @@ void doRunning()
 	}
 
 	map.draw(gCore.getRenderer());
-	player1.draw(gCore.getRenderer());
-	player2.draw(gCore.getRenderer());
+  static int curFrame = 0;
+  static int curFrame2 = 1;
+  static int last_update_time_player = 0;
+  if (SDL_GetTicks() - last_update_time_player > 150)
+  {
+    curFrame++;
+    if (curFrame >= player1.sprites_[player1.state_]->frameCnt_())
+      curFrame = 0;
+    curFrame2++;
+    if (curFrame2 >= player2.sprites_[player2.state_]->frameCnt_())
+      curFrame2 = 0;
+
+    last_update_time_player = SDL_GetTicks();
+  }
+	player1.draw(gCore.getRenderer(), curFrame);
+	player2.draw(gCore.getRenderer(), curFrame2);
 }
 
 void doEnd()
@@ -148,13 +164,18 @@ int main(int argc, char** argv)
 
 
 	bbq::SpriteSheet mapSheet(gCore.getRenderer(), "..\\resources\\map.png", 0x00000000);
-  bbq::SpriteSheet player1animationSheet(gCore.getRenderer(), "..\\resources\\maps\\pig-Sheet.png", 0x00000000);
-  bbq::SpriteSheet player2animationSheet(gCore.getRenderer(), "..\\resources\\maps\\pig-Sheet.png", 0x00000000);
+  bbq::SpriteSheet player1animationSheet(gCore.getRenderer(), "..\\resources\\maps\\pigwalk_female-Sheet.png", 0x00000000);
+  bbq::SpriteSheet player2animationSheet(gCore.getRenderer(), "..\\resources\\maps\\pigwalk_male-Sheet.png", 0x00000000);
   bbq::SpriteSheet heartParticleSheet(gCore.getRenderer(), "..\\resources\\heart_particle.png", 0x00000000);
 
 
+  bbq::SpriteSheet player1animationSheetIdle(gCore.getRenderer(), "..\\resources\\maps\\pigidle_female-Sheet.png", 0x00000000);
+  bbq::SpriteSheet player2animationSheetIdle(gCore.getRenderer(), "..\\resources\\maps\\pigidle_male-Sheet.png", 0x00000000);
+
+
 	bbq::Sprite mapSprite(&mapSheet, 64, 64, 0, 0, 25);
-	bbq::Sprite playerSprite(&mapSheet, 64, 64, 0, 0, 2);
+	bbq::Sprite playerSprite(&player1animationSheetIdle, 64, 64, 0, 0, 2);
+  bbq::Sprite playerSprite2(&player2animationSheetIdle, 64, 64, 0, 0, 2);
   bbq::Sprite player1SpriteAnimation(&player1animationSheet, 64, 64, 0, 0, 3);
   bbq::Sprite player2SpriteAnimation(&player2animationSheet, 64, 64, 0, 0, 3);
   heartAnimationSprite = bbq::Sprite(&heartParticleSheet, 64, 64, 0, 0, 1);
@@ -191,7 +212,8 @@ reset:
 	player1.pos_.x = 4;
 	player1.pos_.y = 3;
 
-	player2 = Player(playerSprites, &fooooo, bbq::TileType::Player2);
+  std::vector<bbq::Sprite*> playerSprites2 = { &playerSprite2 };
+	player2 = Player(playerSprites2, &fooooo, bbq::TileType::Player2);
 	player2.pos_.x = 4;
 	player2.pos_.y = 5;
 
@@ -213,7 +235,7 @@ reset:
 	SDL_Event event;
 
 	int before_update_time = 0;
-	int last_update_time = SDL_GetTicks();
+	last_update_time = SDL_GetTicks();
 	float last_update_time_input = SDL_GetTicks();
 	int before_render_time = SDL_GetTicks();
 	int after_render_time = 0.0f;
@@ -252,6 +274,11 @@ reset:
 			last_update_time_input = SDL_GetTicks();
 		}
 
+    if (state == State::Running)
+      doRunning();
+    else if (state == State::End)
+      doEnd();
+
 		// player animation:
 		if (SDL_GetTicks() - last_update_time > 75)
 		{
@@ -265,10 +292,7 @@ reset:
 			last_update_time = SDL_GetTicks();
 		}
 
-		if (state == State::Running)
-			doRunning();
-		else if (state == State::End)
-			doEnd();
+		
 
 
 
