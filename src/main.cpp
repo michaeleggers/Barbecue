@@ -50,10 +50,10 @@ int main(int argc, char** argv)
 
 
 	  // Test SriteSheet, Sprite classes
-	bbq::SpriteSheet spriteSheet(gCore.getRenderer(), "resources\\militaWarrior_36x36.png", 0x00000000);
-	bbq::SpriteSheet forestSheet(gCore.getRenderer(), "resources\\bg.png", 0x00000000);
-	bbq::SpriteSheet bitmapFont(gCore.getRenderer(), "resources\\font-pack\\bubblemad_8x8.png", 0x00000000);
-	bbq::SpriteSheet mapSheet(gCore.getRenderer(), "resources\\worldmap16x16.png", 0x00000000);
+	bbq::SpriteSheet spriteSheet(gCore.getRenderer(), "..\\resources\\militaWarrior_36x36.png", 0x00000000);
+	bbq::SpriteSheet forestSheet(gCore.getRenderer(), "..\\resources\\bg.png", 0x00000000);
+	bbq::SpriteSheet bitmapFont(gCore.getRenderer(), "..\\resources\\font-pack\\bubblemad_8x8.png", 0x00000000);
+	bbq::SpriteSheet mapSheet(gCore.getRenderer(), "..\\resources\\worldmap16x16.png", 0x00000000);
 
 	bbq::Sprite idleSprite(&spriteSheet, 36, 36, 0, 0, 4);
 	bbq::Sprite walkSprite(&spriteSheet, 36, 36, 0, 36, 6);
@@ -74,7 +74,7 @@ int main(int argc, char** argv)
 	Player player2(playerSprites);
 	bbq::BitmapFont font(&fontSprite, std::string("SVEN, WO IST DER SATZBAU - ALGORITHMUS?!"));
 
-	bbq::TileMap map("resources\\asciimap.txt", 12, 8, &mapSprite);
+	bbq::TileMap map("..\\resources\\asciimap.txt", 12, 8, &mapSprite);
 
 	// ! Test SpriteSheet, Sprite classes
 	bool running = true;
