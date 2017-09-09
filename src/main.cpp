@@ -13,6 +13,7 @@
 #include "../inc/TileMap.h"
 /* Custom */
 #include "../inc/Player.h"
+#include "../inc/Map.h"
 
 
 using namespace std;
@@ -24,9 +25,6 @@ const float DELAY_TIME = 1000.0f / FPS;
 
 int main(int argc, char** argv)
 {
-
-
-
 	// Init SDL2 //////////////////////////////////////
 
   // for now done in graphics core
@@ -50,10 +48,10 @@ int main(int argc, char** argv)
 
 
 	  // Test SriteSheet, Sprite classes
-	bbq::SpriteSheet spriteSheet(gCore.getRenderer(), "resources\\militaWarrior_36x36.png", 0x00000000);
-	bbq::SpriteSheet forestSheet(gCore.getRenderer(), "resources\\bg.png", 0x00000000);
-	bbq::SpriteSheet bitmapFont(gCore.getRenderer(), "resources\\font-pack\\bubblemad_8x8.png", 0x00000000);
-	bbq::SpriteSheet mapSheet(gCore.getRenderer(), "resources\\worldmap16x16.png", 0x00000000);
+	bbq::SpriteSheet spriteSheet(gCore.getRenderer(), "..\\resources\\militaWarrior_36x36.png", 0x00000000);
+	bbq::SpriteSheet forestSheet(gCore.getRenderer(), "..\\resources\\bg.png", 0x00000000);
+	bbq::SpriteSheet bitmapFont(gCore.getRenderer(), "..\\resources\\font-pack\\bubblemad_8x8.png", 0x00000000);
+	bbq::SpriteSheet mapSheet(gCore.getRenderer(), "..\\resources\\worldmap16x16.png", 0x00000000);
 
 	bbq::Sprite idleSprite(&spriteSheet, 36, 36, 0, 0, 4);
 	bbq::Sprite walkSprite(&spriteSheet, 36, 36, 0, 36, 6);
@@ -63,6 +61,9 @@ int main(int argc, char** argv)
 
 	bbq::Sprite forestSprite(&forestSheet, 982, 793, 0, 0, 1);
 	SDL_Rect forestDest = { 0, 0, 982, 793 };
+
+	bbq::Map fooooo;
+	fooooo.Load("..\\resources\\maps\\neu.json");
 
 	// GameObject using the sprites
 	std::vector<bbq::Sprite*> playerSprites = {
@@ -74,7 +75,7 @@ int main(int argc, char** argv)
 	Player player2(playerSprites);
 	bbq::BitmapFont font(&fontSprite, std::string("SVEN, WO IST DER SATZBAU - ALGORITHMUS?!"));
 
-	bbq::TileMap map("resources\\asciimap.txt", 12, 8, &mapSprite);
+	bbq::TileMap map("..\\resources\\asciimap.txt", 12, 8, &mapSprite);
 
 	// ! Test SpriteSheet, Sprite classes
 	bool running = true;

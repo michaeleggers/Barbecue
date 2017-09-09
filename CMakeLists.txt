@@ -24,6 +24,7 @@ set(SDL2_IMAGE_LIBRARIES ${SDL2_IMAGE_LIBRARY})
 
 add_executable(Barbecue 
 	src/main.cpp
+	src/Map.cpp
 	src/GraphicsCore.cpp
 	src/InputCore.cpp
 	src/Sprite.cpp 
@@ -33,6 +34,9 @@ add_executable(Barbecue
 	src/Player.cpp
 	src/BitmapFont.cpp
 	src/TileMap.cpp
+	src/Tile.cpp
+	src/TileInterface.cpp
+	inc/Map.h
 	inc/GraphicsCore.h
 	inc/InputCore.h
 	inc/Sprite.h 
@@ -42,6 +46,8 @@ add_executable(Barbecue
 	inc/Player.h
 	inc/BitmapFont.h
 	inc/TileMap.h
+	inc/Tile.h
+	inc/TileInterface.h
 	)
 
 source_group("resources" FILES ${RESOURCES})
