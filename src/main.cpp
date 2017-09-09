@@ -25,10 +25,6 @@ const float DELAY_TIME = 1000.0f / FPS;
 
 int main(int argc, char** argv)
 {
-	bbq::Map fooooo;
-	fooooo.Load("..\\resources\\maps\\neu.json");
-
-
 	// Init SDL2 //////////////////////////////////////
 
   // for now done in graphics core
@@ -65,6 +61,9 @@ int main(int argc, char** argv)
 
 	bbq::Sprite forestSprite(&forestSheet, 982, 793, 0, 0, 1);
 	SDL_Rect forestDest = { 0, 0, 982, 793 };
+
+	bbq::Map fooooo;
+	fooooo.Load("..\\resources\\maps\\neu.json");
 
 	// GameObject using the sprites
 	std::vector<bbq::Sprite*> playerSprites = {

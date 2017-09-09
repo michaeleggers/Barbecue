@@ -1,24 +1,24 @@
 #pragma once
 #include "../inc/TileInterface.h"
+#include "../inc/Map.h"
 
 namespace bbq
 {
+	class Tile : public TileInterface
+	{
+	public:
+		Tile(TileType type, int x, int y, bbq::Sprite* sprite, Map* map);
+		~Tile();
 
-  class Tile : public TileInterface
-  {
-  public:
-    Tile(TileType type, int x, int y, bbq::Sprite* sprite);
-    ~Tile();
+		TileInterface* getLeft() override;
+		TileInterface* getRight() override;
+		TileInterface* getUp() override;
+		TileInterface* getDown() override;
 
-    virtual TileInterface* getLeft();
-    virtual TileInterface* getRight();
-    virtual TileInterface* getUp();
-    virtual TileInterface* getDown();
-
-    virtual bool moveLeft();
-    virtual bool moveRight();
-    virtual bool moveUp();
-    virtual bool moveDown();
-  };
+		bool moveLeft() override;
+		bool moveRight() override;
+		bool moveUp() override;
+		bool moveDown() override;
+	};
 }
 

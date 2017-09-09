@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
-#include "../inc/Tile.h"
 
 namespace bbq
 {
+	class Tile;
 	class Map
 	{
 	public:

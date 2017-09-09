@@ -1,4 +1,5 @@
 #include "../inc/Map.h"
+#include "../inc/Tile.h"
 #include "fstream"
 #include "../inc/rapidjson/document.h"
 #include "../inc/rapidjson/writer.h"
@@ -40,7 +41,8 @@ namespace bbq
 		{
 			Value& map_tile = map_actual_data[i];
 			int id = map_tile.GetInt();
-			Tile* tile = new (map + i) Tile();
+
+			Tile* tile = new (map + i) Tile(TileType::Free, i % width, i / width, nullptr, this);
 		}
 	}
 }
