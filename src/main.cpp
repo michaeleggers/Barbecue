@@ -24,8 +24,8 @@ size_t delay = 100;
 const int FPS = 60;
 const float DELAY_TIME = 1000.0f / FPS;
 
-std::map<bbq::TileType, bbq::Sprite*> type_to_sprite;
-std::map<bbq::TileType, int> type_to_sprite_idx;
+std::map<bbq::TileType, bbq::Sprite*> bbq::type_to_sprite;
+std::map<bbq::TileType, int> bbq::type_to_sprite_idx;
 
 int main(int argc, char** argv)
 {
@@ -56,24 +56,25 @@ int main(int argc, char** argv)
 	bbq::SpriteSheet sheet(gCore.getRenderer(), "..\\resources\\map.png", 0x00000000);
 	bbq::Sprite sprite(&sheet, 64, 64, 0, 0, 3);
 
-	type_to_sprite[bbq::TileType::Player1] = &sprite;
-	type_to_sprite_idx[bbq::TileType::Player1] = 0;
+	bbq::type_to_sprite[bbq::TileType::Player1] = &sprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Player1] = 0;
 	
-	type_to_sprite[bbq::TileType::Free] = &sprite;
-	type_to_sprite_idx[bbq::TileType::Free] = 1;
+  bbq::type_to_sprite[bbq::TileType::Free] = &sprite;
+  bbq::type_to_sprite_idx[bbq::TileType::Free] = 1;
 
-	type_to_sprite[bbq::TileType::Box] = &sprite;
-	type_to_sprite_idx[bbq::TileType::Box] = 2;
+  bbq::type_to_sprite[bbq::TileType::Box] = &sprite;
+  bbq::type_to_sprite_idx[bbq::TileType::Box] = 2;
 
+  bbq::type_to_sprite[bbq::TileType::Wall] = &sprite;
+  bbq::type_to_sprite_idx[bbq::TileType::Wall] = 3;
+
+  bbq::TileMap map(fooooo.width, fooooo.height, &fooooo);
 		/*
 		Player1,
 		Player2,
 		Free,
 		Box*/
 	
-	Player player(playerSprites);
-	Player player2(playerSprites);
-
 	// ! Test SpriteSheet, Sprite classes
 	bool running = true;
 	size_t iter = 0;
@@ -101,95 +102,96 @@ int main(int argc, char** argv)
 
 		// testing input core -> input process
 		// input update
-		if (SDL_GetTicks() - last_update_time_input > 0) // not quite what the threshold should be
-		{
-			iCore.update();
-			if (iCore.keyDown(SDL_SCANCODE_RIGHT))
-			{
-				player.state_ = walk;
-				player.facingState_ = facingState::right;
-				player.pos_.x += 8;
-			}
-			if (iCore.keyDown(SDL_SCANCODE_LEFT))
-			{
-				player.state_ = walk;
-				player.facingState_ = facingState::left;
-				player.pos_.x -= 8;
-			}
-			if (iCore.keyDown(SDL_SCANCODE_DOWN))
-			{
-				player.pos_.y += 1;
-			}
-			if (iCore.keyDown(SDL_SCANCODE_UP))
-			{
-				player.pos_.y -= 1;
-			}
-			if (iCore.keyUp(SDL_SCANCODE_RIGHT))
-			{
-				player.state_ = idle;
-			}
-			if (iCore.keyUp(SDL_SCANCODE_LEFT))
-			{
-				player.state_ = idle;
-			}
-			if (iCore.keyDown(SDL_SCANCODE_SPACE))
-			{
-				player.state_ = attack;
-			}
+		//if (SDL_GetTicks() - last_update_time_input > 0) // not quite what the threshold should be
+		//{
+		//	iCore.update();
+		//	if (iCore.keyDown(SDL_SCANCODE_RIGHT))
+		//	{
+		//		player.state_ = walk;
+		//		player.facingState_ = facingState::right;
+		//		player.pos_.x += 8;
+		//	}
+		//	if (iCore.keyDown(SDL_SCANCODE_LEFT))
+		//	{
+		//		player.state_ = walk;
+		//		player.facingState_ = facingState::left;
+		//		player.pos_.x -= 8;
+		//	}
+		//	if (iCore.keyDown(SDL_SCANCODE_DOWN))
+		//	{
+		//		player.pos_.y += 1;
+		//	}
+		//	if (iCore.keyDown(SDL_SCANCODE_UP))
+		//	{
+		//		player.pos_.y -= 1;
+		//	}
+		//	if (iCore.keyUp(SDL_SCANCODE_RIGHT))
+		//	{
+		//		player.state_ = idle;
+		//	}
+		//	if (iCore.keyUp(SDL_SCANCODE_LEFT))
+		//	{
+		//		player.state_ = idle;
+		//	}
+		//	if (iCore.keyDown(SDL_SCANCODE_SPACE))
+		//	{
+		//		player.state_ = attack;
+		//	}
 
-			if (iCore.keyDown(SDL_SCANCODE_ESCAPE))
-			{
-				running = false;
-			}
+		//	if (iCore.keyDown(SDL_SCANCODE_ESCAPE))
+		//	{
+		//		running = false;
+		//	}
 
-			if (iCore.keyDown(SDL_SCANCODE_D))
-			{
-				player2.state_ = walk;
-				player2.facingState_ = facingState::right;
-				player2.pos_.x += 2;
-			}
-			if (iCore.keyDown(SDL_SCANCODE_A))
-			{
-				player2.state_ = walk;
-				player2.facingState_ = facingState::left;
-				player2.pos_.x -= 2;
-			}
-			if (iCore.keyUp(SDL_SCANCODE_D))
-			{
-				player2.state_ = idle;
-			}
-			if (iCore.keyUp(SDL_SCANCODE_A))
-			{
-				player2.state_ = idle;
-			}
+		//	if (iCore.keyDown(SDL_SCANCODE_D))
+		//	{
+		//		player2.state_ = walk;
+		//		player2.facingState_ = facingState::right;
+		//		player2.pos_.x += 2;
+		//	}
+		//	if (iCore.keyDown(SDL_SCANCODE_A))
+		//	{
+		//		player2.state_ = walk;
+		//		player2.facingState_ = facingState::left;
+		//		player2.pos_.x -= 2;
+		//	}
+		//	if (iCore.keyUp(SDL_SCANCODE_D))
+		//	{
+		//		player2.state_ = idle;
+		//	}
+		//	if (iCore.keyUp(SDL_SCANCODE_A))
+		//	{
+		//		player2.state_ = idle;
+		//	}
 
-			player.update();
-			player2.update();
+		//	player.update();
+		//	player2.update();
 
-			last_update_time_input = SDL_GetTicks();
-		}
+		//	last_update_time_input = SDL_GetTicks();
+		//}
 
-		if (SDL_GetTicks() - last_update_time > 75)
-		{
-			currentFrame++;
-			currentFrame2++;
-			if (currentFrame >= player.sprites_[player.state_]->frameCnt_())
-				currentFrame = 0;
-			if (currentFrame2 >= player2.sprites_[player2.state_]->frameCnt_())
-				currentFrame2 = 0;
-			last_update_time = SDL_GetTicks();
-		}
+		//if (SDL_GetTicks() - last_update_time > 75)
+		//{
+		//	currentFrame++;
+		//	currentFrame2++;
+		//	if (currentFrame >= player.sprites_[player.state_]->frameCnt_())
+		//		currentFrame = 0;
+		//	if (currentFrame2 >= player2.sprites_[player2.state_]->frameCnt_())
+		//		currentFrame2 = 0;
+		//	last_update_time = SDL_GetTicks();
+		//}
 
 		//SDL_SetRenderDrawColor(rdr_main, 0.2, 0.2, 0.2, 255);
 		gCore.clear();
 		//SDL_RenderClear(rdr_main);
 		//SDL_RenderCopy(rdr_main, texture, NULL, NULL);
 
-		// SDL_RenderCopyEx same as SDL_RenderCopy but provides more features such as flipping and rotating.
+		//SDL_RenderCopyEx same as SDL_RenderCopy but provides more features such as flipping and rotating.
 
 		
-		player.draw(gCore.getRenderer(), currentFrame);
-		player2.draw(gCore.getRenderer(), currentFrame2);
+		//player.draw(gCore.getRenderer(), currentFrame);
+		//player2.draw(gCore.getRenderer(), currentFrame2);
+    map.draw(gCore.getRenderer());
 		SDL_RenderPresent(gCore.getRenderer());
 		//SDL_Delay(100); // artificial render time 
 
