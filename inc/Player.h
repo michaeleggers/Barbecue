@@ -41,7 +41,6 @@ public:
   animationState state_;
   animationState prevState_;
   facingState facingState_;
-  SDL_Rect destination_;
 
 };
 

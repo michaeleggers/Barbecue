@@ -53,15 +53,15 @@ namespace bbq
 			}
 			else if (id == 2)
 			{
-				type = TileType::Box;
+				type = TileType::Free;
 			}
 			else if (id == 3)
 			{
-				type = TileType::Wall;
+				type = TileType::Box;
 			}
 			else if (id == 4)
 			{
-				type = TileType::Player1;
+				type = TileType::Wall;
 			}
 			*(map + i) = type;
 		}

@@ -54,19 +54,22 @@ int main(int argc, char** argv)
 	fooooo.Load("..\\resources\\map\\test.json");
 
 	bbq::SpriteSheet sheet(gCore.getRenderer(), "..\\resources\\map.png", 0x00000000);
-	bbq::Sprite sprite(&sheet, 64, 64, 0, 0, 3);
+	bbq::Sprite sprite(&sheet, 64, 64, 0, 0, 25);
 
 	bbq::type_to_sprite[bbq::TileType::Player1] = &sprite;
 	bbq::type_to_sprite_idx[bbq::TileType::Player1] = 0;
+
+  bbq::type_to_sprite[bbq::TileType::Player2] = &sprite;
+  bbq::type_to_sprite_idx[bbq::TileType::Player2] = 1;
 	
   bbq::type_to_sprite[bbq::TileType::Free] = &sprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free] = 1;
+  bbq::type_to_sprite_idx[bbq::TileType::Free] = 2;
 
   bbq::type_to_sprite[bbq::TileType::Box] = &sprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Box] = 2;
+  bbq::type_to_sprite_idx[bbq::TileType::Box] = 3;
 
   bbq::type_to_sprite[bbq::TileType::Wall] = &sprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Wall] = 3;
+  bbq::type_to_sprite_idx[bbq::TileType::Wall] = 4;
 
   bbq::TileMap map(fooooo.width, fooooo.height, &fooooo);
 		/*
