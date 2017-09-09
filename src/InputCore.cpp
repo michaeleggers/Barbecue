@@ -53,7 +53,9 @@ bool InputCore::keyDown(int key)
 
 bool InputCore::keyHit(int key)
 {
-  return false;
+  if (key < 0 || key > numKeys_)
+    return false;
+  return (!keysPrev_[key] && keys_[key]);
 }
 
 bool InputCore::keyUp(int key)
