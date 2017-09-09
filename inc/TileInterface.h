@@ -4,14 +4,28 @@
 #include "../inc/Map.h"
 namespace bbq
 {
-	enum TileType
-	{
-		Player1,
-		Player2,
-		Free,
-		Box1,
-    Box2,
-		Wall
+  enum TileType : int
+  {
+    Player1 = 0,
+    Player2 = 1,
+    Free = 2,
+    Free2 = 2,
+    Free3 = 2,
+    Free4 = 2,
+    Free5 = 2,
+    Free6 = 2,
+    Free7 = 2,
+    Free8 = 2,
+    Free9 = 2,
+    Free10 = 2,
+    Free11 = 2,
+    Free12 = 2,
+    Free13 = 2,
+    Free14 = 2,
+    Box1 = 3,
+    Box2 = 4,
+    Wall = 5,
+    Wall2 =5
 	};
 
 	class TileInterface

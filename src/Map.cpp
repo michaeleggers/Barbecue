@@ -49,23 +49,63 @@ namespace bbq
 			}
 			else if (id == 1)
 			{
-				type = TileType::Free;
-			}
-			else if (id == 2)
-			{
-				type = TileType::Free;
-			}
-			else if (id == 3)
-			{
-				type = TileType::Box1;
-			}
-			else if (id == 4)
-			{
 				type = TileType::Wall;
 			}
+			else if (id == 14)
+			{
+				type = TileType::Box2;
+			}
+			else if (id == 20)
+			{
+				type = TileType::Free2;
+			}
+      else if (id == 21)
+      {
+        type = TileType::Free3;
+      }
+      else if (id == 22)
+      {
+        type = TileType::Free4;
+      }
+      else if (id == 23)
+      {
+        type = TileType::Free5;
+      }
+      else if (id == 24)
+      {
+        type = TileType::Free6;
+      }
+      else if (id == 25)
+      {
+        type = TileType::Free7;
+      }
+      else if (id == 26)
+      {
+        type = TileType::Free8;
+      }
+      else if (id == 28)
+      {
+        type = TileType::Free9;
+      }
+      else if (id == 29)
+      {
+        type = TileType::Free10;
+      }
+      else if (id == 31)
+      {
+        type = TileType::Wall2;
+      }
+      else if (id == 32)
+      {
+        type = TileType::Free11;
+      }
       else if (id == 6)
       {
-        type = TileType::Box2;
+        type = TileType::Box1;
+      }
+      else if (id == 7)
+      {
+        type = TileType::Free12;
       }
 			*(map + i) = type;
 		}

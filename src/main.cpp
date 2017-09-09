@@ -200,7 +200,7 @@ int main(int argc, char** argv)
   bbq::type_to_sprite_idx[bbq::TileType::Box2] = 1;
 
 reset:
-  fooooo.Load("..\\resources\\map\\test.json");
+  fooooo.Load("..\\resources\\map\\Endboss.json");
 	map = bbq::TileMap(fooooo.width, fooooo.height, &fooooo);
 	/*
 	Player1,
