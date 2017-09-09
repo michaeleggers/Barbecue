@@ -43,23 +43,15 @@ namespace bbq
 			int id = map_tile.GetInt();
 			TileType type = TileType::Free;
 
-			if (id == 0)
+			if (id == 1)
 			{
 				type = TileType::Free;
-			}
-			else if (id == 1)
-			{
-				type = TileType::Wall;
-			}
-			else if (id == 14)
-			{
-				type = TileType::Box2;
-			}
-			else if (id == 20)
-			{
-				type = TileType::Free2;
-			}
-      else if (id == 21)
+			}			
+      else if (id == 30)
+      {
+        type = TileType::Free2;
+      }
+      else if (id == 29)
       {
         type = TileType::Free3;
       }
@@ -67,44 +59,56 @@ namespace bbq
       {
         type = TileType::Free4;
       }
-      else if (id == 23)
+      else if (id == 2)
+      {
+        type = TileType::Wall;
+      }
+
+      else if (id == 24)
       {
         type = TileType::Free5;
       }
-      else if (id == 24)
+
+      else if (id == 8)
       {
         type = TileType::Free6;
       }
-      else if (id == 25)
+      else if (id == 7)
+      {
+        type = TileType::Box1;
+      }
+      else if (id == 32)
+      {
+        type = TileType::Wall2;
+      }
+      else if (id == 15)
+      {
+        type = TileType::Box2;
+      }
+
+      else if (id == 23)
       {
         type = TileType::Free7;
       }
+
       else if (id == 26)
       {
         type = TileType::Free8;
       }
-      else if (id == 28)
+
+      else if (id == 25)
       {
         type = TileType::Free9;
       }
-      else if (id == 29)
+      else if (id == 21)
       {
         type = TileType::Free10;
       }
-      else if (id == 31)
-      {
-        type = TileType::Wall2;
-      }
-      else if (id == 32)
+      else if (id == 27)
       {
         type = TileType::Free11;
       }
-      else if (id == 6)
-      {
-        type = TileType::Box1;
-      }
-      else if (id == 7)
-      {
+      else {
         type = TileType::Free12;
       }
 			*(map + i) = type;

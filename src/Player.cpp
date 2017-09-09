@@ -68,9 +68,10 @@ void Player::moveRight()
   int idx = x + y * map_->width;
   bbq::TileType tileRight = map_->map[idx];
   bbq::TileType boxType = playerType_ == bbq::Player1 ? bbq::TileType::Box1 : bbq::TileType::Box2;
-  if (tileRight == bbq::TileType::Free)
+  if (tileRight > 1 && tileRight < 16)
   {
     pos_.x++;
+    facingState_ = facingState::right;
   }
   else if (tileRight == boxType)
   {
@@ -83,13 +84,14 @@ void Player::moveRight()
 
     int box_idx = box_x + box_y * map_->width;
     bbq::TileType tileBox = map_->map[box_idx];
-    if (tileBox == bbq::TileType::Free)
+    if (tileBox > 1 && tileBox < 16)
     {
       int success = SDL_QueueAudio(bbq::deviceId, wavBuffer, wavLength);
 
       map_->map[box_idx] = boxType;
-      map_->map[idx] = bbq::TileType::Free;
+      map_->map[idx] = bbq::TileType::Free6;
       pos_.x++;
+      facingState_ = facingState::right;
     }
   }
 
@@ -110,9 +112,10 @@ void Player::moveLeft()
   int idx = x + y * map_->width;
   bbq::TileType tileLeft = map_->map[idx];
 
-  if (tileLeft == bbq::TileType::Free)
+  if (tileLeft > 1 && tileLeft < 16)
   {
     pos_.x--;
+    facingState_ = facingState::left;
   }
   else if (tileLeft == boxType)
   {
@@ -125,13 +128,14 @@ void Player::moveLeft()
 
     int box_idx = box_x + box_y * map_->width;
     bbq::TileType tileBox = map_->map[box_idx];
-    if (tileBox == bbq::TileType::Free)
+    if (tileBox > 1 && tileBox < 16)
     {
       int success = SDL_QueueAudio(bbq::deviceId, wavBuffer, wavLength);
 
       map_->map[box_idx] = boxType;
-      map_->map[idx] = bbq::TileType::Free;
+      map_->map[idx] = bbq::TileType::Free6;
       pos_.x--;
+      facingState_ = facingState::left;
     }
   }
 }
@@ -150,7 +154,7 @@ void Player::moveUp()
   int idx = x + y * map_->width;
   bbq::TileType tileUp = map_->map[idx];
 
-  if (tileUp == bbq::TileType::Free)
+  if (tileUp > 1 && tileUp < 16)
   {
     pos_.y--;
   }
@@ -165,12 +169,12 @@ void Player::moveUp()
 
     int box_idx = box_x + box_y * map_->width;
     bbq::TileType tileBox = map_->map[box_idx];
-    if (tileBox == bbq::TileType::Free)
+    if (tileBox > 1 && tileBox < 16)
     {
       int success = SDL_QueueAudio(bbq::deviceId, wavBuffer, wavLength);
 
       map_->map[box_idx] = boxType;
-      map_->map[idx] = bbq::TileType::Free;
+      map_->map[idx] = bbq::TileType::Free6;
       pos_.y--;
     }
   }
@@ -190,7 +194,7 @@ void Player::moveDown()
   int idx = x + y * map_->width;
   bbq::TileType tileDown = map_->map[idx];
 
-  if (tileDown == bbq::TileType::Free)
+  if (tileDown > 1 && tileDown < 16)
   {
     pos_.y++;
   }
@@ -205,12 +209,12 @@ void Player::moveDown()
 
     int box_idx = box_x + box_y * map_->width;
     bbq::TileType tileBox = map_->map[box_idx];
-    if (tileBox == bbq::TileType::Free)
+    if (tileBox > 1 && tileBox < 16)
     {
       int success = SDL_QueueAudio(bbq::deviceId, wavBuffer, wavLength);
 
       map_->map[box_idx] = boxType;
-      map_->map[idx] = bbq::TileType::Free;
+      map_->map[idx] = bbq::TileType::Free6;
       pos_.y++;
     }
   }
