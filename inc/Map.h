@@ -2,11 +2,17 @@
 #include <string>
 #include "../inc/Tile.h"
 
-class Map
+namespace bbq
 {
-public:
-	void Load(std::string path);
+	class Map
+	{
+	public:
+		void Load(std::string path);
 
-	Tile map[200];
-};
+		Tile* map;
+
+		int width;
+		int height;
+	};
+}
 

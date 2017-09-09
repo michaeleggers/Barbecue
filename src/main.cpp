@@ -13,6 +13,7 @@
 #include "../inc/TileMap.h"
 /* Custom */
 #include "../inc/Player.h"
+#include "../inc/Map.h"
 
 
 using namespace std;
@@ -24,7 +25,8 @@ const float DELAY_TIME = 1000.0f / FPS;
 
 int main(int argc, char** argv)
 {
-
+	bbq::Map fooooo;
+	fooooo.Load("..\\resources\\maps\\neu.json");
 
 
 	// Init SDL2 //////////////////////////////////////
