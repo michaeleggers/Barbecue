@@ -6,6 +6,7 @@
 #include "../inc/Sprite.h"
 #include "../inc/Map.h"
 #include "../inc/TileInterface.h"
+#include "../inc/globals.h"
 
 enum animationState
 {
@@ -49,5 +50,10 @@ public:
   facingState facingState_;
   bbq::Map* map_;
   bbq::TileType playerType_;
+
+  SDL_AudioSpec wavSpec;
+  Uint32 wavLength;
+  Uint8 *wavBuffer;
+
 };
 

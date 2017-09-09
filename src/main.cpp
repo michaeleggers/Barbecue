@@ -41,10 +41,10 @@ bbq::InputCore iCore;
 bbq::Map fooooo;
 bbq::TileMap map;
 
-SDL_AudioSpec wavSpec;
-Uint32 wavLength;
-Uint8 *wavBuffer;
-SDL_AudioDeviceID deviceId;
+//SDL_AudioSpec wavSpec;
+//Uint32 wavLength;
+//Uint8 *wavBuffer;
+SDL_AudioDeviceID bbq::deviceId;
 
 enum State
 {
@@ -58,22 +58,22 @@ void doRunning()
 	if (iCore.keyHit(SDL_SCANCODE_RIGHT))
 	{
 		player1.moveRight();
-		int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+		//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
 	}
 	if (iCore.keyHit(SDL_SCANCODE_LEFT))
 	{
 		player1.moveLeft();
-		int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+		//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
 	}
 	if (iCore.keyHit(SDL_SCANCODE_DOWN))
 	{
 		player1.moveDown();
-		int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+		//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
 	}
 	if (iCore.keyHit(SDL_SCANCODE_UP))
 	{
 		player1.moveUp();
-		int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+		//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
 	}
 
 	if (iCore.keyHit(SDL_SCANCODE_W))
@@ -113,7 +113,7 @@ void doEnd()
   }
 
   for (auto iter = particles.begin(); iter != particles.end(); ++iter) {
-    iter->move(cos(rand()) * 2, fabs(sin(rand())) * -5);
+    iter->move(cos(rand()) * 4, fabs(sin(rand())) * -5);
     iter->draw(gCore.getRenderer(), 0);
   }
 }
@@ -141,12 +141,11 @@ int main(int argc, char** argv)
 
 	// ! Init Input Core ////////////////////////////////
 
-	SDL_LoadWAV("..\\resources\\box_move.wav", &wavSpec, &wavBuffer, &wavLength);
-	deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
+	//SDL_LoadWAV("..\\resources\\box_move.wav", &wavSpec, &wavBuffer, &wavLength);
+	//bbq::deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
 
-	SDL_PauseAudioDevice(deviceId, 0);
+	//SDL_PauseAudioDevice(bbq::deviceId, 0);
 
-	fooooo.Load("..\\resources\\map\\test.json");
 
 	bbq::SpriteSheet mapSheet(gCore.getRenderer(), "..\\resources\\map.png", 0x00000000);
   bbq::SpriteSheet player1animationSheet(gCore.getRenderer(), "..\\resources\\maps\\pig-Sheet.png", 0x00000000);
@@ -179,6 +178,8 @@ int main(int argc, char** argv)
   bbq::type_to_sprite[bbq::TileType::Box2] = &mapSprite;
   bbq::type_to_sprite_idx[bbq::TileType::Box2] = 1;
 
+reset:
+  fooooo.Load("..\\resources\\map\\test.json");
 	map = bbq::TileMap(fooooo.width, fooooo.height, &fooooo);
 	/*
 	Player1,
@@ -238,7 +239,10 @@ int main(int argc, char** argv)
 		if (SDL_GetTicks() - last_update_time_input > 0) // not quite what the threshold should be
 		{
 			iCore.update();
-
+      if (iCore.keyDown(SDL_SCANCODE_R))
+      {
+        goto reset;
+      }
 
 			if (iCore.keyDown(SDL_SCANCODE_ESCAPE))
 			{
@@ -298,8 +302,8 @@ int main(int argc, char** argv)
 
 	}
 
-	SDL_CloseAudioDevice(deviceId);
-	SDL_FreeWAV(wavBuffer);
+	SDL_CloseAudioDevice(bbq::deviceId);
+
 	SDL_Quit();
 
 	return 0;

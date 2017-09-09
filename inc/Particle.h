@@ -23,6 +23,10 @@ namespace bbq
 
     }
 
+    void set_pos(int x, int y) {
+      destination_.x = x;
+      destination_.y = y;
+    }
     void move(int x, int y) {
       destination_.x += x;
       destination_.y += y;
@@ -41,6 +45,12 @@ namespace bbq
     Uint32 birthDate;
     bbq::Sprite* sprite_;
     SDL_Rect destination_;
+
+    float x0 = 0;
+    float y0 = 0;
+    float vx0 = 0;
+    float vy0 = 0;
+    float g0 = -9.81;
 
   };
 
