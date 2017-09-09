@@ -54,12 +54,12 @@ void Player::moveRight()
 
   int idx = x + y * map_->width;
   bbq::TileType tileRight = map_->map[idx];
-
+  bbq::TileType boxType = playerType_ == bbq::Player1 ? bbq::TileType::Box1 : bbq::TileType::Box2;
   if (tileRight == bbq::TileType::Free)
   {
     pos_.x++;
   }
-  else if (tileRight == bbq::TileType::Box)
+  else if (tileRight == boxType)
   {
     int box_x = x + 1;
     int box_y = y;
@@ -72,7 +72,7 @@ void Player::moveRight()
     bbq::TileType tileBox = map_->map[box_idx];
     if (tileBox == bbq::TileType::Free)
     {
-      map_->map[box_idx] = bbq::TileType::Box;
+      map_->map[box_idx] = boxType;
       map_->map[idx] = bbq::TileType::Free;
       pos_.x++;
     }
@@ -83,6 +83,8 @@ void Player::moveRight()
 
 void Player::moveLeft()
 {
+  bbq::TileType boxType = playerType_ == bbq::Player1 ? bbq::TileType::Box1 : bbq::TileType::Box2;
+
   int x = pos_.x - 1;
   int y = pos_.y;
   if (x < 0 || x >= map_->width)
@@ -97,7 +99,7 @@ void Player::moveLeft()
   {
     pos_.x--;
   }
-  else if (tileLeft == bbq::TileType::Box)
+  else if (tileLeft == boxType)
   {
     int box_x = x - 1;
     int box_y = y;
@@ -110,7 +112,7 @@ void Player::moveLeft()
     bbq::TileType tileBox = map_->map[box_idx];
     if (tileBox == bbq::TileType::Free)
     {
-      map_->map[box_idx] = bbq::TileType::Box;
+      map_->map[box_idx] = boxType;
       map_->map[idx] = bbq::TileType::Free;
       pos_.x--;
     }
@@ -119,6 +121,8 @@ void Player::moveLeft()
 
 void Player::moveUp()
 {
+  bbq::TileType boxType = playerType_ == bbq::Player1 ? bbq::TileType::Box1 : bbq::TileType::Box2;
+
   int x = pos_.x;
   int y = pos_.y - 1;
   if (x < 0 || x >= map_->width)
@@ -133,7 +137,7 @@ void Player::moveUp()
   {
     pos_.y--;
   }
-  else if (tileUp == bbq::TileType::Box)
+  else if (tileUp == boxType)
   {
     int box_x = x;
     int box_y = y - 1;
@@ -146,7 +150,7 @@ void Player::moveUp()
     bbq::TileType tileBox = map_->map[box_idx];
     if (tileBox == bbq::TileType::Free)
     {
-      map_->map[box_idx] = bbq::TileType::Box;
+      map_->map[box_idx] = boxType;
       map_->map[idx] = bbq::TileType::Free;
       pos_.y--;
     }
@@ -155,6 +159,8 @@ void Player::moveUp()
 
 void Player::moveDown()
 {
+  bbq::TileType boxType = playerType_ == bbq::Player1 ? bbq::TileType::Box1 : bbq::TileType::Box2;
+
   int x = pos_.x;
   int y = pos_.y + 1;
   if (x < 0 || x >= map_->width)
@@ -169,7 +175,7 @@ void Player::moveDown()
   {
     pos_.y++;
   }
-  else if (tileDown == bbq::TileType::Box)
+  else if (tileDown == boxType)
   {
     int box_x = x;
     int box_y = y + 1;
@@ -182,20 +188,20 @@ void Player::moveDown()
     bbq::TileType tileBox = map_->map[box_idx];
     if (tileBox == bbq::TileType::Free)
     {
-      map_->map[box_idx] = bbq::TileType::Box;
+      map_->map[box_idx] = boxType;
       map_->map[idx] = bbq::TileType::Free;
       pos_.y++;
     }
   }
 }
 
-Player::Player(std::vector<bbq::Sprite *>& sprites, bbq::Map* map) :
+Player::Player(std::vector<bbq::Sprite *>& sprites, bbq::Map* map, bbq::TileType playerType) :
   map_(map),
   state_(idle),
   sprites_(sprites),
   activeSprite_(sprites_[idle]),
   facingState_(right),
-  pos_{ 0, 0 }
+  playerType_(playerType)
 {
 }
 

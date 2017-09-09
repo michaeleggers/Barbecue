@@ -31,7 +31,7 @@ class Player : public bbq::GameObject
 {
 public:
   Player();
-  Player(std::vector<bbq::Sprite*>& sprites, bbq::Map* map);
+  Player(std::vector<bbq::Sprite*>& sprites, bbq::Map* map, bbq::TileType playerType);
   ~Player();
 
   void update() override;
@@ -47,5 +47,6 @@ public:
   animationState prevState_;
   facingState facingState_;
   bbq::Map* map_;
+  bbq::TileType playerType_;
 };
 

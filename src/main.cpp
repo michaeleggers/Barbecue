@@ -140,8 +140,8 @@ int main(int argc, char** argv)
 	bbq::type_to_sprite[bbq::TileType::Free] = &mapSprite;
 	bbq::type_to_sprite_idx[bbq::TileType::Free] = 2;
 
-	bbq::type_to_sprite[bbq::TileType::Box] = &mapSprite;
-	bbq::type_to_sprite_idx[bbq::TileType::Box] = 3;
+	bbq::type_to_sprite[bbq::TileType::Box1] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Box1] = 3;
 
 	bbq::type_to_sprite[bbq::TileType::Wall] = &mapSprite;
 	bbq::type_to_sprite_idx[bbq::TileType::Wall] = 4;
@@ -153,11 +153,11 @@ int main(int argc, char** argv)
 	Free,
 	Box*/
 	std::vector<bbq::Sprite*> playerSprites = { &playerSprite };
-	player1 = Player(playerSprites, &fooooo);
+	player1 = Player(playerSprites, &fooooo, bbq::TileType::Player1);
 	player1.pos_.x = 4;
 	player1.pos_.y = 3;
 
-	player2 = Player(playerSprites, &fooooo);
+	player2 = Player(playerSprites, &fooooo, bbq::TileType::Player2);
 	player2.pos_.x = 4;
 	player2.pos_.y = 5;
 

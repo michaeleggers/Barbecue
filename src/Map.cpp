@@ -57,7 +57,7 @@ namespace bbq
 			}
 			else if (id == 3)
 			{
-				type = TileType::Box;
+				type = TileType::Box1;
 			}
 			else if (id == 4)
 			{
