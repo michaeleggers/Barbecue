@@ -29,7 +29,7 @@
          "margin":0,
          "name":"BBQ",
          "spacing":0,
-         "tilecount":18,
+         "tilecount":16,
          "tileheight":64,
          "tiles":
             {
@@ -105,12 +105,6 @@
                  "imageheight":64,
                  "imagewidth":64
                 },
-             "3":
-                {
-                 "image":"..\/..\/..\/BBQ_Gamejam_2017\/mytiles\/chart.png",
-                 "imageheight":64,
-                 "imagewidth":64
-                },
              "31":
                 {
                  "image":"..\/maps\/Tiles\/stoneWithFence.png",
@@ -120,12 +114,6 @@
              "32":
                 {
                  "image":"..\/maps\/Tiles\/bricksWithTreeTop.png",
-                 "imageheight":64,
-                 "imagewidth":64
-                },
-             "4":
-                {
-                 "image":"..\/..\/..\/BBQ_Gamejam_2017\/mytiles\/chart2.png",
                  "imageheight":64,
                  "imagewidth":64
                 },
