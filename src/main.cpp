@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <list>
 #include "SDL.h"
 /* Graphics */
 #include "../inc/Sprite.h"
@@ -17,6 +18,7 @@
 #include "../inc/Map.h"
 #include "../inc/globals.h"
 #include "../inc/TileInterface.h"
+#include "../inc/Particle.h"
 
 size_t delay = 100;
 const int FPS = 60;
@@ -30,6 +32,9 @@ Player player2;
 
 Player player1animation;
 Player player2animation;
+
+std::list<bbq::Particle> particles;
+bbq::Sprite heartAnimationSprite;
 
 bbq::GraphicsCore gCore;
 bbq::InputCore iCore;
@@ -95,7 +100,22 @@ void doRunning()
 
 void doEnd()
 {
+  int size = rand() % 10;
+  bbq::Particle p(640, 680, size, size, 10000, &heartAnimationSprite);
 
+  if (particles.size() < 1000) {
+    particles.push_back(p);
+  }
+
+  for (auto iter = particles.begin(); iter != particles.end(); ++iter) {
+    if (iter->isDead())
+      iter = particles.erase(iter);
+  }
+
+  for (auto iter = particles.begin(); iter != particles.end(); ++iter) {
+    iter->move(cos(rand()) * 2, fabs(sin(rand())) * -5);
+    iter->draw(gCore.getRenderer(), 0);
+  }
 }
 
 int main(int argc, char** argv)
@@ -131,12 +151,14 @@ int main(int argc, char** argv)
 	bbq::SpriteSheet mapSheet(gCore.getRenderer(), "..\\resources\\map.png", 0x00000000);
   bbq::SpriteSheet player1animationSheet(gCore.getRenderer(), "..\\resources\\maps\\pig-Sheet.png", 0x00000000);
   bbq::SpriteSheet player2animationSheet(gCore.getRenderer(), "..\\resources\\maps\\pig-Sheet.png", 0x00000000);
+  bbq::SpriteSheet heartParticleSheet(gCore.getRenderer(), "..\\resources\\heart_particle.png", 0x00000000);
 
 
 	bbq::Sprite mapSprite(&mapSheet, 64, 64, 0, 0, 25);
 	bbq::Sprite playerSprite(&mapSheet, 64, 64, 0, 0, 2);
   bbq::Sprite player1SpriteAnimation(&player1animationSheet, 64, 64, 0, 0, 3);
   bbq::Sprite player2SpriteAnimation(&player2animationSheet, 64, 64, 0, 0, 3);
+  heartAnimationSprite = bbq::Sprite(&heartParticleSheet, 64, 64, 0, 0, 1);
 
 
 	bbq::type_to_sprite[bbq::TileType::Player1] = &mapSprite;
