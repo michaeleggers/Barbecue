@@ -1,35 +1,40 @@
 #pragma once
 
 #include "../inc/Sprite.h"
-
-enum TileType
+#include "../inc/Map.h"
+namespace bbq
 {
-  Player1,
-  Player2,
-  Free,
-  Box
-};
+  enum TileType
+  {
+    Player1,
+    Player2,
+    Free,
+    Box
+  };
 
-class TileInterface
-{
-public:
-  TileInterface(TileType);
-  virtual ~TileInterface();
+  class TileInterface
+  {
+  public:
+    TileInterface(TileType type, int x, int y, bbq::Sprite* sprite, Map* map);
+    virtual ~TileInterface();
 
-  virtual TileInterface& getLeft();
-  virtual TileInterface& getRight();
-  virtual TileInterface& getUp();
-  virtual TileInterface& getDown();
+    virtual TileInterface* getLeft();
+    virtual TileInterface* getRight();
+    virtual TileInterface* getUp();
+    virtual TileInterface* getDown();
 
-  virtual bool moveLeft();
-  virtual bool moveRight();
-  virtual bool moveUp();
-  virtual bool moveDown();
+    virtual bool moveLeft();
+    virtual bool moveRight();
+    virtual bool moveUp();
+    virtual bool moveDown();
 
-  int x_;
-  int y_;
-  TileType type_;
-  bbq::Sprite* sprite_;
+    int x_;
+    int y_;
+    TileType type_;
+    bbq::Sprite* sprite_;
+    Map* map_;
   
-};
+  };
 
+
+}
