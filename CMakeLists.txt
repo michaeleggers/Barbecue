@@ -34,6 +34,8 @@ add_executable(Barbecue
 	src/Player.cpp
 	src/BitmapFont.cpp
 	src/TileMap.cpp
+	src/Tile.cpp
+	src/TileInterface.cpp
 	inc/Map.h
 	inc/GraphicsCore.h
 	inc/InputCore.h
@@ -44,6 +46,8 @@ add_executable(Barbecue
 	inc/Player.h
 	inc/BitmapFont.h
 	inc/TileMap.h
+	inc/Tile.h
+	inc/TileInterface.h
 	)
 
 source_group("resources" FILES ${RESOURCES})
