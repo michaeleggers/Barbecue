@@ -18,14 +18,20 @@
 #include "../inc/globals.h"
 #include "../inc/TileInterface.h"
 
-using namespace std;
-
 size_t delay = 100;
 const int FPS = 60;
 const float DELAY_TIME = 1000.0f / FPS;
 
 std::map<bbq::TileType, bbq::Sprite*> bbq::type_to_sprite;
 std::map<bbq::TileType, int> bbq::type_to_sprite_idx;
+
+Player player1;
+Player player2;
+
+bbq::GraphicsCore gCore;
+bbq::InputCore iCore;
+bbq::Map fooooo;
+bbq::TileMap map;
 
 enum State
 {
@@ -36,7 +42,43 @@ enum State
 
 void doRunning()
 {
+  if (iCore.keyHit(SDL_SCANCODE_RIGHT))
+  {
+    player1.moveRight();
+  }
+  if (iCore.keyHit(SDL_SCANCODE_LEFT))
+  {
+    player1.moveLeft();
+  }
+  if (iCore.keyHit(SDL_SCANCODE_DOWN))
+  {
+    player1.moveDown();
+  }
+  if (iCore.keyHit(SDL_SCANCODE_UP))
+  {
+    player1.moveUp();
+  }
 
+  if (iCore.keyHit(SDL_SCANCODE_W))
+  {
+    player2.moveUp();
+  }
+  if (iCore.keyHit(SDL_SCANCODE_A))
+  {
+    player2.moveLeft();
+  }
+  if (iCore.keyHit(SDL_SCANCODE_S))
+  {
+    player2.moveDown();
+  }
+  if (iCore.keyHit(SDL_SCANCODE_D))
+  {
+    player2.moveRight();
+  }
+
+  map.draw(gCore.getRenderer());
+  player1.draw(gCore.getRenderer());
+  player2.draw(gCore.getRenderer());
 }
 
 void doEnd()
@@ -55,19 +97,19 @@ int main(int argc, char** argv)
 
   // Init Graphics Core ///////////////////////////////
 
-  bbq::GraphicsCore gCore;
+  
   gCore.init();
 
   // ! Init Graphics Core /////////////////////////////
 
   // Init Input Core //////////////////////////////////
 
-  bbq::InputCore iCore;
+  
   iCore.init();
 
   // ! Init Input Core ////////////////////////////////
 
-  bbq::Map fooooo;
+  
   fooooo.Load("..\\resources\\map\\test.json");
 
   bbq::SpriteSheet mapSheet(gCore.getRenderer(), "..\\resources\\map.png", 0x00000000);
@@ -91,18 +133,18 @@ int main(int argc, char** argv)
   bbq::type_to_sprite[bbq::TileType::Wall] = &mapSprite;
   bbq::type_to_sprite_idx[bbq::TileType::Wall] = 4;
 
-  bbq::TileMap map(fooooo.width, fooooo.height, &fooooo);
+  map = bbq::TileMap(fooooo.width, fooooo.height, &fooooo);
   /*
   Player1,
   Player2,
   Free,
   Box*/
   std::vector<bbq::Sprite*> playerSprites = { &playerSprite };
-  Player player1(playerSprites, &fooooo);
+  player1 = Player(playerSprites, &fooooo);
   player1.pos_.x = 4;
   player1.pos_.y = 3;
 
-  Player player2(playerSprites, &fooooo);
+  player2 = Player(playerSprites, &fooooo);
   player2.pos_.x = 4;
   player2.pos_.y = 5;
 
@@ -134,43 +176,10 @@ int main(int argc, char** argv)
     }
 
     // input
+    gCore.clear();
     if (SDL_GetTicks() - last_update_time_input > 0) // not quite what the threshold should be
     {
       iCore.update();
-      if (iCore.keyHit(SDL_SCANCODE_RIGHT))
-      {
-        player1.moveRight();
-      }
-      if (iCore.keyHit(SDL_SCANCODE_LEFT))
-      {
-        player1.moveLeft();
-      }
-      if (iCore.keyHit(SDL_SCANCODE_DOWN))
-      {
-        player1.moveDown();
-      }
-      if (iCore.keyHit(SDL_SCANCODE_UP))
-      {
-        player1.moveUp();
-      }
-
-      if (iCore.keyHit(SDL_SCANCODE_W))
-      {
-        player2.moveUp();
-      }
-      if (iCore.keyHit(SDL_SCANCODE_A))
-      {
-        player2.moveLeft();
-      }
-      if (iCore.keyHit(SDL_SCANCODE_S))
-      {
-        player2.moveDown();
-      }
-      if (iCore.keyHit(SDL_SCANCODE_D))
-      {
-        player2.moveRight();
-      }
-
 
 
       if (iCore.keyDown(SDL_SCANCODE_ESCAPE))
@@ -193,16 +202,18 @@ int main(int argc, char** argv)
     //	last_update_time = SDL_GetTicks();
     //}
 
-    gCore.clear();
+    if (state == State::Running)
+      doRunning();
+    else if (state == State::End)
+      doEnd();
 
-    map.draw(gCore.getRenderer());
-    player1.draw(gCore.getRenderer());
-    player2.draw(gCore.getRenderer());
+    
 
     if (player1.pos_.x == player2.pos_.x && player1.pos_.y == player2.pos_.y)
     {
-
+      state = State::End;
     }
+
     SDL_RenderPresent(gCore.getRenderer());
     //SDL_Delay(100); // artificial render time 
 

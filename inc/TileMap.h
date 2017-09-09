@@ -18,6 +18,7 @@ namespace bbq
   class TileMap : public GameObject
   {
   public:
+    TileMap() = default;
     TileMap(int width, int height, Map* map);
     ~TileMap();
 
