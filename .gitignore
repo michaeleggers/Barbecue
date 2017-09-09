@@ -33,3 +33,5 @@
 
 build
 ThirdParty
+/cmake/FindSDL2_image.cmake
+/resources/font-pack.zip
