@@ -28,6 +28,9 @@ std::map<bbq::TileType, int> bbq::type_to_sprite_idx;
 Player player1;
 Player player2;
 
+Player player1animation;
+Player player2animation;
+
 bbq::GraphicsCore gCore;
 bbq::InputCore iCore;
 bbq::Map fooooo;
@@ -126,9 +129,14 @@ int main(int argc, char** argv)
 	fooooo.Load("..\\resources\\map\\test.json");
 
 	bbq::SpriteSheet mapSheet(gCore.getRenderer(), "..\\resources\\map.png", 0x00000000);
+  bbq::SpriteSheet player1animationSheet(gCore.getRenderer(), "..\\resources\\maps\\pig-Sheet.png", 0x00000000);
+  bbq::SpriteSheet player2animationSheet(gCore.getRenderer(), "..\\resources\\maps\\pig-Sheet.png", 0x00000000);
+
 
 	bbq::Sprite mapSprite(&mapSheet, 64, 64, 0, 0, 25);
 	bbq::Sprite playerSprite(&mapSheet, 64, 64, 0, 0, 2);
+  bbq::Sprite player1SpriteAnimation(&player1animationSheet, 64, 64, 0, 0, 3);
+  bbq::Sprite player2SpriteAnimation(&player2animationSheet, 64, 64, 0, 0, 3);
 
 
 	bbq::type_to_sprite[bbq::TileType::Player1] = &mapSprite;
@@ -146,6 +154,9 @@ int main(int argc, char** argv)
 	bbq::type_to_sprite[bbq::TileType::Wall] = &mapSprite;
 	bbq::type_to_sprite_idx[bbq::TileType::Wall] = 4;
 
+  bbq::type_to_sprite[bbq::TileType::Box2] = &mapSprite;
+  bbq::type_to_sprite_idx[bbq::TileType::Box2] = 1;
+
 	map = bbq::TileMap(fooooo.width, fooooo.height, &fooooo);
 	/*
 	Player1,
@@ -160,6 +171,18 @@ int main(int argc, char** argv)
 	player2 = Player(playerSprites, &fooooo, bbq::TileType::Player2);
 	player2.pos_.x = 4;
 	player2.pos_.y = 5;
+
+  std::vector<bbq::Sprite*> player1Sprites = { &player1SpriteAnimation };
+  player1animation = Player(player1Sprites, &fooooo, bbq::TileType::Player1);
+  player1animation.pos_.x = 0;
+  player1animation.pos_.y = 650;
+
+  std::vector<bbq::Sprite*> player2Sprites = { &player2SpriteAnimation };
+  player2animation = Player(player2Sprites, &fooooo, bbq::TileType::Player2);
+  player2animation.pos_.x = 1280 - 64;
+  player2animation.pos_.y = 650;
+  player2animation.facingState_ = facingState::left;
+
 
 	// ! Test SpriteSheet, Sprite classes
 	bool running = true;
@@ -204,16 +227,17 @@ int main(int argc, char** argv)
 		}
 
 		// player animation:
-		//if (SDL_GetTicks() - last_update_time > 75)
-		//{
-		//	currentFrame++;
-		//	currentFrame2++;
-		//	if (currentFrame >= player.sprites_[player.state_]->frameCnt_())
-		//		currentFrame = 0;
-		//	if (currentFrame2 >= player2.sprites_[player2.state_]->frameCnt_())
-		//		currentFrame2 = 0;
-		//	last_update_time = SDL_GetTicks();
-		//}
+		if (SDL_GetTicks() - last_update_time > 75)
+		{
+			currentFrame++;
+			if (currentFrame >= player1animation.sprites_[player1animation.state_]->frameCnt_())
+				currentFrame = 0;
+      currentFrame2++;
+      if (currentFrame2 >= player2animation.sprites_[player2animation.state_]->frameCnt_())
+        currentFrame2 = 0;
+
+			last_update_time = SDL_GetTicks();
+		}
 
 		if (state == State::Running)
 			doRunning();
@@ -226,6 +250,18 @@ int main(int argc, char** argv)
 		{
 			state = State::End;
 		}
+
+    int deltaX = abs(player1.pos_.x - player2.pos_.x) * 32;
+    int deltaY = abs(player1.pos_.y - player2.pos_.y) * 32;
+
+    int distance = sqrt(deltaX *deltaX + deltaY*deltaY);
+    int distanceHalfed = distance / 2;
+
+    player1animation.pos_.x = 576 - distanceHalfed;
+    player2animation.pos_.x = 640 + distanceHalfed;
+
+    player1animation.drawAsPixels(gCore.getRenderer(), currentFrame);
+    player2animation.drawAsPixels(gCore.getRenderer(), currentFrame2);
 
 		SDL_RenderPresent(gCore.getRenderer());
 		//SDL_Delay(100); // artificial render time 

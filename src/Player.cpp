@@ -43,6 +43,19 @@ void Player::draw(SDL_Renderer * renderer, int currentFrame)
   }
 }
 
+void Player::drawAsPixels(SDL_Renderer *renderer, int currentFrame)
+{
+  SDL_Rect destination = { pos_.x, pos_.y, 64, 64 };
+  if (facingState_ == facingState::left)
+  {
+    SDL_RenderCopyEx(renderer, activeSprite_->getTexture_(), &activeSprite_->getFrame_(currentFrame), &destination, 0, NULL, SDL_FLIP_HORIZONTAL);
+  }
+  else
+  {
+    SDL_RenderCopyEx(renderer, activeSprite_->getTexture_(), &activeSprite_->getFrame_(currentFrame), &destination, 0, NULL, SDL_FLIP_NONE);
+  }
+}
+
 void Player::moveRight()
 {
   int x = pos_.x + 1;

@@ -36,6 +36,7 @@ public:
 
   void update() override;
   void draw(SDL_Renderer*, int currentFrame = 0) override;
+  void drawAsPixels(SDL_Renderer*, int currentFrame);
   void moveRight();
   void moveLeft();
   void moveUp();

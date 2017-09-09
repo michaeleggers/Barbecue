@@ -63,6 +63,10 @@ namespace bbq
 			{
 				type = TileType::Wall;
 			}
+      else if (id == 6)
+      {
+        type = TileType::Box2;
+      }
 			*(map + i) = type;
 		}
 	}
