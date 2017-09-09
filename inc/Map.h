@@ -4,12 +4,13 @@
 namespace bbq
 {
 	class Tile;
+	enum TileType;
 	class Map
 	{
 	public:
 		void Load(std::string path);
 
-		Tile* map;
+		TileType* map;
 
 		int width;
 		int height;

@@ -9,7 +9,8 @@ namespace bbq
 		Player1,
 		Player2,
 		Free,
-		Box
+		Box,
+		Wall
 	};
 
 	class TileInterface

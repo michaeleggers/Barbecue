@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <map>
 #include "SDL.h"
 /* Graphics */
 #include "../inc/Sprite.h"
@@ -14,7 +15,8 @@
 /* Custom */
 #include "../inc/Player.h"
 #include "../inc/Map.h"
-
+#include "../inc/globals.h"
+#include "../inc/TileInterface.h"
 
 using namespace std;
 
@@ -22,6 +24,8 @@ size_t delay = 100;
 const int FPS = 60;
 const float DELAY_TIME = 1000.0f / FPS;
 
+std::map<bbq::TileType, bbq::Sprite*> type_to_sprite;
+std::map<bbq::TileType, int> type_to_sprite_idx;
 
 int main(int argc, char** argv)
 {
@@ -46,36 +50,29 @@ int main(int argc, char** argv)
 
 	// ! Init Input Core ////////////////////////////////
 
-
-	  // Test SriteSheet, Sprite classes
-	bbq::SpriteSheet spriteSheet(gCore.getRenderer(), "..\\resources\\militaWarrior_36x36.png", 0x00000000);
-	bbq::SpriteSheet forestSheet(gCore.getRenderer(), "..\\resources\\bg.png", 0x00000000);
-	bbq::SpriteSheet bitmapFont(gCore.getRenderer(), "..\\resources\\font-pack\\bubblemad_8x8.png", 0x00000000);
-	bbq::SpriteSheet mapSheet(gCore.getRenderer(), "..\\resources\\worldmap16x16.png", 0x00000000);
-
-	bbq::Sprite idleSprite(&spriteSheet, 36, 36, 0, 0, 4);
-	bbq::Sprite walkSprite(&spriteSheet, 36, 36, 0, 36, 6);
-	bbq::Sprite attackSprite(&spriteSheet, 36, 36, 0, 72, 4);
-	bbq::Sprite mapSprite(&mapSheet, 16, 16, 0, 0, 160);
-	bbq::Sprite fontSprite(&bitmapFont, 8, 8, 0, 0, 83);
-
-	bbq::Sprite forestSprite(&forestSheet, 982, 793, 0, 0, 1);
-	SDL_Rect forestDest = { 0, 0, 982, 793 };
-
 	bbq::Map fooooo;
-	fooooo.Load("..\\resources\\maps\\neu.json");
+	fooooo.Load("..\\resources\\map\\test.json");
 
-	// GameObject using the sprites
-	std::vector<bbq::Sprite*> playerSprites = {
-	  &idleSprite,
-	  &walkSprite,
-	  &attackSprite
-	};
+	bbq::SpriteSheet sheet(gCore.getRenderer(), "..\\resources\\map.png", 0x00000000);
+	bbq::Sprite sprite(&sheet, 64, 64, 0, 0, 3);
+
+	type_to_sprite[bbq::TileType::Player1] = &sprite;
+	type_to_sprite_idx[bbq::TileType::Player1] = 0;
+	
+	type_to_sprite[bbq::TileType::Free] = &sprite;
+	type_to_sprite_idx[bbq::TileType::Free] = 1;
+
+	type_to_sprite[bbq::TileType::Box] = &sprite;
+	type_to_sprite_idx[bbq::TileType::Box] = 2;
+
+		/*
+		Player1,
+		Player2,
+		Free,
+		Box*/
+	
 	Player player(playerSprites);
 	Player player2(playerSprites);
-	bbq::BitmapFont font(&fontSprite, std::string("SVEN, WO IST DER SATZBAU - ALGORITHMUS?!"));
-
-	bbq::TileMap map("..\\resources\\asciimap.txt", 12, 8, &mapSprite);
 
 	// ! Test SpriteSheet, Sprite classes
 	bool running = true;
@@ -189,9 +186,8 @@ int main(int argc, char** argv)
 		//SDL_RenderCopy(rdr_main, texture, NULL, NULL);
 
 		// SDL_RenderCopyEx same as SDL_RenderCopy but provides more features such as flipping and rotating.
-		SDL_RenderCopyEx(gCore.getRenderer(), forestSprite.getTexture_(), &forestSprite.getFrame_(0), &forestDest, 0, NULL, SDL_FLIP_NONE);
-		font.draw(gCore.getRenderer(), 0);
-		map.draw(gCore.getRenderer(), 0);
+
+		
 		player.draw(gCore.getRenderer(), currentFrame);
 		player2.draw(gCore.getRenderer(), currentFrame2);
 		SDL_RenderPresent(gCore.getRenderer());

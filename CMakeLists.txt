@@ -48,6 +48,7 @@ add_executable(Barbecue
 	inc/TileMap.h
 	inc/Tile.h
 	inc/TileInterface.h
+	inc/globals.h
 	)
 
 source_group("resources" FILES ${RESOURCES})
