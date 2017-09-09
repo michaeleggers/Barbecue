@@ -1,10 +1,6 @@
 #pragma once
 #include <string>
-
-class Tile
-{
-	
-};
+#include "../inc/Tile.h"
 
 class Map
 {
