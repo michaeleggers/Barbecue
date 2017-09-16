@@ -1,6 +1,10 @@
 #pragma once
 #include "TileInterface.h"
+#include "../inc/Player.h"
+
 #include <map>
+
+
 
 namespace bbq
 {

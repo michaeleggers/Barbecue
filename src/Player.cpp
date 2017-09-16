@@ -1,5 +1,9 @@
 #include "../inc/Player.h"
 
+
+extern Player player1;
+extern Player player2;
+
 Player::Player()
 {
 }
@@ -68,6 +72,7 @@ void Player::moveRight()
   int idx = x + y * map_->width;
   bbq::TileType tileRight = map_->map[idx];
   bbq::TileType boxType = playerType_ == bbq::Player1 ? bbq::TileType::Box1 : bbq::TileType::Box2;
+  Player otherPlayer = playerType_ == bbq::Player1 ? player2 : player1;
   if (tileRight > 1 && tileRight < 16)
   {
     pos_.x++;
@@ -80,6 +85,8 @@ void Player::moveRight()
     if (box_x < 0 || box_x >= map_->width)
       return;
     if (box_y < 0 || box_y >= map_->height)
+      return;
+    if (box_x == otherPlayer.pos_.x && box_x == otherPlayer.pos_.x)
       return;
 
     int box_idx = box_x + box_y * map_->width;
@@ -101,6 +108,7 @@ void Player::moveRight()
 void Player::moveLeft()
 {
   bbq::TileType boxType = playerType_ == bbq::Player1 ? bbq::TileType::Box1 : bbq::TileType::Box2;
+  Player otherPlayer = playerType_ == bbq::Player1 ? player2 : player1;
 
   int x = pos_.x - 1;
   int y = pos_.y;
@@ -125,6 +133,8 @@ void Player::moveLeft()
       return;
     if (box_y < 0 || box_y >= map_->height)
       return;
+    if (box_x == otherPlayer.pos_.x && box_x == otherPlayer.pos_.x)
+      return;
 
     int box_idx = box_x + box_y * map_->width;
     bbq::TileType tileBox = map_->map[box_idx];
@@ -143,6 +153,7 @@ void Player::moveLeft()
 void Player::moveUp()
 {
   bbq::TileType boxType = playerType_ == bbq::Player1 ? bbq::TileType::Box1 : bbq::TileType::Box2;
+  Player otherPlayer = playerType_ == bbq::Player1 ? player2 : player1;
 
   int x = pos_.x;
   int y = pos_.y - 1;
@@ -166,6 +177,8 @@ void Player::moveUp()
       return;
     if (box_y < 0 || box_y >= map_->height)
       return;
+    if (box_y == otherPlayer.pos_.y && box_x == otherPlayer.pos_.x)
+      return;
 
     int box_idx = box_x + box_y * map_->width;
     bbq::TileType tileBox = map_->map[box_idx];
@@ -183,6 +196,7 @@ void Player::moveUp()
 void Player::moveDown()
 {
   bbq::TileType boxType = playerType_ == bbq::Player1 ? bbq::TileType::Box1 : bbq::TileType::Box2;
+  Player otherPlayer = playerType_ == bbq::Player1 ? player2 : player1;
 
   int x = pos_.x;
   int y = pos_.y + 1;
@@ -205,6 +219,8 @@ void Player::moveDown()
     if (box_x < 0 || box_x >= map_->width)
       return;
     if (box_y < 0 || box_y >= map_->height)
+      return;
+    if (box_y == otherPlayer.pos_.y && box_x == otherPlayer.pos_.x)
       return;
 
     int box_idx = box_x + box_y * map_->width;
@@ -232,6 +248,7 @@ Player::Player(std::vector<bbq::Sprite *>& sprites, bbq::Map* map, bbq::TileType
   bbq::deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
 
   SDL_PauseAudioDevice(bbq::deviceId, 0);
+
 }
 
 
