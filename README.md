@@ -1,5 +1,5 @@
 # Barbecue
-Game framework using SDL2
+Two Player Sokoban-Clone. Made at the Barbecue Gamejam 2017.
 
 ## Building for Microsoft Visual Studio 2015
 
