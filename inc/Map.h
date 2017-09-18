@@ -5,15 +5,17 @@ namespace bbq
 {
 	class Tile;
 	enum TileType;
+
 	class Map
 	{
 	public:
 		void Load(std::string path);
+    ~Map();
 
-		TileType* map;
+		TileType* map_;
 
-		int width;
-		int height;
+		int width_;
+		int height_;
 	};
 }
 

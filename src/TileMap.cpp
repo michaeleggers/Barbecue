@@ -36,7 +36,7 @@ namespace bbq
         destination.x = col * 64 / 2;
         destination.y = row * 64 / 2;
 
-        TileType tileType = map_->map[row * columns_ + col];
+        TileType tileType = map_->map_[row * columns_ + col];
         Sprite* sprite = type_to_sprite[tileType];
         int index = type_to_sprite_idx[tileType];
 

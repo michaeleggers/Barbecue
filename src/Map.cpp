@@ -11,6 +11,11 @@ namespace bbq
 {
 	void Map::Load(const std::string path)
 	{
+    if (map_)
+    {
+      std::free(map_);
+    }
+
 		using namespace rapidjson;
 		std::ifstream t(path);
 
@@ -24,10 +29,10 @@ namespace bbq
 		Value& w = d["width"];
 		Value& h = d["height"];
 
-		width = w.GetInt();
-		height = h.GetInt();
+		width_ = w.GetInt();
+		height_ = h.GetInt();
 
-		map = (TileType*)malloc(width*height * sizeof(TileType));
+		map_ = (TileType*)std::malloc(width_*height_ * sizeof(TileType));
 
 		Value& layers = d["layers"];
 		auto layers_list = layers.GetArray();
@@ -111,7 +116,12 @@ namespace bbq
       else {
         type = TileType::Free12;
       }
-			*(map + i) = type;
+			*(map_ + i) = type;
 		}
 	}
+
+  Map::~Map()
+  {
+    std::free(map_);
+  }
 }
