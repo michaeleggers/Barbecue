@@ -93,7 +93,6 @@ void Player::moveRight()
     bbq::TileType tileBox = map_->map_[box_idx];
     if (tileBox > 1 && tileBox < 16)
     {
-      int success = SDL_QueueAudio(bbq::deviceId, wavBuffer, wavLength);
 
       map_->map_[box_idx] = boxType;
       map_->map_[idx] = bbq::TileType::Free6;
@@ -140,7 +139,6 @@ void Player::moveLeft()
     bbq::TileType tileBox = map_->map_[box_idx];
     if (tileBox > 1 && tileBox < 16)
     {
-      int success = SDL_QueueAudio(bbq::deviceId, wavBuffer, wavLength);
 
       map_->map_[box_idx] = boxType;
       map_->map_[idx] = bbq::TileType::Free6;
@@ -184,8 +182,6 @@ void Player::moveUp()
     bbq::TileType tileBox = map_->map_[box_idx];
     if (tileBox > 1 && tileBox < 16)
     {
-      int success = SDL_QueueAudio(bbq::deviceId, wavBuffer, wavLength);
-
       map_->map_[box_idx] = boxType;
       map_->map_[idx] = bbq::TileType::Free6;
       pos_.y--;
@@ -227,8 +223,6 @@ void Player::moveDown()
     bbq::TileType tileBox = map_->map_[box_idx];
     if (tileBox > 1 && tileBox < 16)
     {
-      int success = SDL_QueueAudio(bbq::deviceId, wavBuffer, wavLength);
-
       map_->map_[box_idx] = boxType;
       map_->map_[idx] = bbq::TileType::Free6;
       pos_.y++;
@@ -244,10 +238,7 @@ Player::Player(std::vector<bbq::Sprite *>& sprites, bbq::Map* map, bbq::TileType
   facingState_(right),
   playerType_(playerType)
 {
-  SDL_LoadWAV("..\\resources\\box_move.wav", &wavSpec, &wavBuffer, &wavLength);
-  bbq::deviceId = SDL_OpenAudioDevice(NULL, 0, &wavSpec, NULL, 0);
 
-  SDL_PauseAudioDevice(bbq::deviceId, 0);
 
 }
 
@@ -256,5 +247,5 @@ Player::Player(std::vector<bbq::Sprite *>& sprites, bbq::Map* map, bbq::TileType
 
 Player::~Player()
 {
-  SDL_FreeWAV(wavBuffer);
+
 }

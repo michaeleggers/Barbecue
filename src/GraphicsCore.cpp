@@ -8,8 +8,7 @@ GraphicsCore::GraphicsCore() : window_(nullptr), renderer_(nullptr)
 
 GraphicsCore::~GraphicsCore()
 {
-  SDL_DestroyRenderer(renderer_);
-  SDL_DestroyWindow(window_);
+
 }
 
 int GraphicsCore::init()

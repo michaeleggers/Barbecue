@@ -42,11 +42,11 @@ bbq::Map tiledMap;
 bbq::TileMap map;
 
 int last_update_time = 0;
-
+bool running = true;
 //SDL_AudioSpec wavSpec;
 //Uint32 wavLength;
 //Uint8 *wavBuffer;
-SDL_AudioDeviceID bbq::deviceId;
+//SDL_AudioDeviceID bbq::deviceId;
 
 enum State
 {
@@ -57,180 +57,186 @@ enum State
 
 void doRunning()
 {
-	if (iCore.keyHit(SDL_SCANCODE_RIGHT))
+	if (running)
 	{
-		player2.moveRight();
-		//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-	}
-	if (iCore.keyHit(SDL_SCANCODE_LEFT))
-	{
-    player2.moveLeft();
-		//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-	}
-	if (iCore.keyHit(SDL_SCANCODE_DOWN))
-	{
-    player2.moveDown();
-		//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-	}
-	if (iCore.keyHit(SDL_SCANCODE_UP))
-	{
-    player2.moveUp();
-		//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
-	}
+		if (iCore.keyHit(SDL_SCANCODE_RIGHT))
+		{
+			player2.moveRight();
+			//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+		}
+		if (iCore.keyHit(SDL_SCANCODE_LEFT))
+		{
+			player2.moveLeft();
+			//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+		}
+		if (iCore.keyHit(SDL_SCANCODE_DOWN))
+		{
+			player2.moveDown();
+			//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+		}
+		if (iCore.keyHit(SDL_SCANCODE_UP))
+		{
+			player2.moveUp();
+			//int success = SDL_QueueAudio(deviceId, wavBuffer, wavLength);
+		}
 
-	if (iCore.keyHit(SDL_SCANCODE_W))
-	{
-    player1.moveUp();
-	}
-	if (iCore.keyHit(SDL_SCANCODE_A))
-	{
-    player1.moveLeft();
-	}
-	if (iCore.keyHit(SDL_SCANCODE_S))
-	{
-    player1.moveDown();
-	}
-	if (iCore.keyHit(SDL_SCANCODE_D))
-	{
-    player1.moveRight();
-	}
+		if (iCore.keyHit(SDL_SCANCODE_W))
+		{
+			player1.moveUp();
+		}
+		if (iCore.keyHit(SDL_SCANCODE_A))
+		{
+			player1.moveLeft();
+		}
+		if (iCore.keyHit(SDL_SCANCODE_S))
+		{
+			player1.moveDown();
+		}
+		if (iCore.keyHit(SDL_SCANCODE_D))
+		{
+			player1.moveRight();
+		}
 
-	map.draw(gCore.getRenderer());
-  static int curFrame = 0;
-  static int curFrame2 = 1;
-  static int last_update_time_player = 0;
-  if (SDL_GetTicks() - last_update_time_player > 150)
-  {
-    curFrame++;
-    if (curFrame >= player1.sprites_[player1.state_]->frameCnt_())
-      curFrame = 0;
-    curFrame2++;
-    if (curFrame2 >= player2.sprites_[player2.state_]->frameCnt_())
-      curFrame2 = 0;
+		map.draw(gCore.getRenderer());
+		static int curFrame = 0;
+		static int curFrame2 = 1;
+		static int last_update_time_player = 0;
+		if (SDL_GetTicks() - last_update_time_player > 150)
+		{
+			curFrame++;
+			if (curFrame >= player1.sprites_[player1.state_]->frameCnt_())
+				curFrame = 0;
+			curFrame2++;
+			if (curFrame2 >= player2.sprites_[player2.state_]->frameCnt_())
+				curFrame2 = 0;
 
-    last_update_time_player = SDL_GetTicks();
-  }
-	player1.draw(gCore.getRenderer(), curFrame);
-	player2.draw(gCore.getRenderer(), curFrame2);
+			last_update_time_player = SDL_GetTicks();
+		}
+		player1.draw(gCore.getRenderer(), curFrame);
+		player2.draw(gCore.getRenderer(), curFrame2);
+	}
 }
 
 void doEnd()
 {
-  int size = rand() % 10;
-  bbq::Particle p(640, 680, size, size, 10000, &heartAnimationSprite);
+	if (running)
+	{
+		int size = rand() % 10;
+		bbq::Particle p(640, 680, size, size, 10000, &heartAnimationSprite);
 
-  if (particles.size() < 1000) {
-    particles.push_back(p);
-  }
+		if (particles.size() < 1000) {
+			particles.push_back(p);
+		}
 
-  for (auto iter = particles.begin(); iter != particles.end(); ++iter) {
-    if (iter->isDead())
-      iter = particles.erase(iter);
-  }
+		for (auto iter = particles.begin(); iter != particles.end(); ++iter) {
+			if (iter->isDead())
+				iter = particles.erase(iter);
+		}
 
-  for (auto iter = particles.begin(); iter != particles.end(); ++iter) {
-    iter->move(cos(rand()) * 4, fabs(sin(rand())) * -5);
-    iter->draw(gCore.getRenderer(), 0);
-  }
+		for (auto iter = particles.begin(); iter != particles.end(); ++iter) {
+			iter->move(cos(rand()) * 4, fabs(sin(rand())) * -5);
+			iter->draw(gCore.getRenderer(), 0);
+		}
+	}
 }
 
 void initGame() // not used atm
 {
-  bbq::SpriteSheet mapSheet(gCore.getRenderer(), "..\\resources\\map\\tileset.png", 0x00000000);
-  bbq::SpriteSheet player1animationSheet(gCore.getRenderer(), "..\\resources\\map\\pigwalk_female-Sheet.png", 0x00000000);
-  bbq::SpriteSheet player2animationSheet(gCore.getRenderer(), "..\\resources\\map\\pigwalk_male-Sheet.png", 0x00000000);
-  bbq::SpriteSheet heartParticleSheet(gCore.getRenderer(), "..\\resources\\heart_particle.png", 0x00000000);
+	bbq::SpriteSheet mapSheet(gCore.getRenderer(), "..\\resources\\map\\tileset.png", 0x00000000);
+	bbq::SpriteSheet player1animationSheet(gCore.getRenderer(), "..\\resources\\map\\pigwalk_female-Sheet.png", 0x00000000);
+	bbq::SpriteSheet player2animationSheet(gCore.getRenderer(), "..\\resources\\map\\pigwalk_male-Sheet.png", 0x00000000);
+	bbq::SpriteSheet heartParticleSheet(gCore.getRenderer(), "..\\resources\\heart_particle.png", 0x00000000);
 
 
-  bbq::SpriteSheet player1animationSheetIdle(gCore.getRenderer(), "..\\resources\\map\\pigidle_female-Sheet.png", 0x00000000);
-  bbq::SpriteSheet player2animationSheetIdle(gCore.getRenderer(), "..\\resources\\map\\pigidle_male-Sheet.png", 0x00000000);
+	bbq::SpriteSheet player1animationSheetIdle(gCore.getRenderer(), "..\\resources\\map\\pigidle_female-Sheet.png", 0x00000000);
+	bbq::SpriteSheet player2animationSheetIdle(gCore.getRenderer(), "..\\resources\\map\\pigidle_male-Sheet.png", 0x00000000);
 
 
-  bbq::Sprite mapSprite(&mapSheet, 64, 64, 0, 0, 25);
-  bbq::Sprite playerSprite(&player1animationSheetIdle, 64, 64, 0, 0, 2);
-  bbq::Sprite playerSprite2(&player2animationSheetIdle, 64, 64, 0, 0, 2);
-  bbq::Sprite player1SpriteAnimation(&player1animationSheet, 64, 64, 0, 0, 3);
-  bbq::Sprite player2SpriteAnimation(&player2animationSheet, 64, 64, 0, 0, 3);
-  heartAnimationSprite = bbq::Sprite(&heartParticleSheet, 64, 64, 0, 0, 1);
+	bbq::Sprite mapSprite(&mapSheet, 64, 64, 0, 0, 25);
+	bbq::Sprite playerSprite(&player1animationSheetIdle, 64, 64, 0, 0, 2);
+	bbq::Sprite playerSprite2(&player2animationSheetIdle, 64, 64, 0, 0, 2);
+	bbq::Sprite player1SpriteAnimation(&player1animationSheet, 64, 64, 0, 0, 3);
+	bbq::Sprite player2SpriteAnimation(&player2animationSheet, 64, 64, 0, 0, 3);
+	heartAnimationSprite = bbq::Sprite(&heartParticleSheet, 64, 64, 0, 0, 1);
 
-  bbq::type_to_sprite[bbq::TileType::Free] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free] = 15;
-  bbq::type_to_sprite[bbq::TileType::Free2] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free2] = 13;
-  bbq::type_to_sprite[bbq::TileType::Free3] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free3] = 14;
-  bbq::type_to_sprite[bbq::TileType::Free4] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free4] = 5;
-  bbq::type_to_sprite[bbq::TileType::Free5] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free5] = 8;
-  bbq::type_to_sprite[bbq::TileType::Free6] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free6] = 2;
-  bbq::type_to_sprite[bbq::TileType::Free7] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free7] = 10;
-  bbq::type_to_sprite[bbq::TileType::Free8] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free8] = 9;
-  bbq::type_to_sprite[bbq::TileType::Free9] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free9] = 7;
-  bbq::type_to_sprite[bbq::TileType::Free10] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free10] = 3;
-  bbq::type_to_sprite[bbq::TileType::Free11] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free11] = 4;
-  bbq::type_to_sprite[bbq::TileType::Free12] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free12] = 29;
+	bbq::type_to_sprite[bbq::TileType::Free] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free] = 15;
+	bbq::type_to_sprite[bbq::TileType::Free2] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free2] = 13;
+	bbq::type_to_sprite[bbq::TileType::Free3] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free3] = 14;
+	bbq::type_to_sprite[bbq::TileType::Free4] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free4] = 5;
+	bbq::type_to_sprite[bbq::TileType::Free5] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free5] = 8;
+	bbq::type_to_sprite[bbq::TileType::Free6] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free6] = 2;
+	bbq::type_to_sprite[bbq::TileType::Free7] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free7] = 10;
+	bbq::type_to_sprite[bbq::TileType::Free8] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free8] = 9;
+	bbq::type_to_sprite[bbq::TileType::Free9] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free9] = 7;
+	bbq::type_to_sprite[bbq::TileType::Free10] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free10] = 3;
+	bbq::type_to_sprite[bbq::TileType::Free11] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free11] = 4;
+	bbq::type_to_sprite[bbq::TileType::Free12] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free12] = 29;
 
-  bbq::type_to_sprite[bbq::TileType::Box1] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Box1] = 6;
-  bbq::type_to_sprite[bbq::TileType::Box2] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Box2] = 11;
+	bbq::type_to_sprite[bbq::TileType::Box1] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Box1] = 6;
+	bbq::type_to_sprite[bbq::TileType::Box2] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Box2] = 11;
 
-  bbq::type_to_sprite[bbq::TileType::Wall] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Wall] = 1;
-  bbq::type_to_sprite[bbq::TileType::Wall2] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Wall2] = 12;
+	bbq::type_to_sprite[bbq::TileType::Wall] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Wall] = 1;
+	bbq::type_to_sprite[bbq::TileType::Wall2] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Wall2] = 12;
 
-  tiledMap.Load("..\\resources\\map\\Endboss.json");
-  map = bbq::TileMap(tiledMap.width_, tiledMap.height_, &tiledMap);
-  /*
-  Player1,
-  Player2,
-  Free,
-  Box*/
-  std::vector<bbq::Sprite*> playerSprites = { &playerSprite };
-  player1 = Player(playerSprites, &tiledMap, bbq::TileType::Player1);
-  player1.pos_.x = 4;
-  player1.pos_.y = 13;
+	tiledMap.Load("..\\resources\\map\\Endboss.json");
+	map = bbq::TileMap(tiledMap.width_, tiledMap.height_, &tiledMap);
+	/*
+	Player1,
+	Player2,
+	Free,
+	Box*/
+	std::vector<bbq::Sprite*> playerSprites = { &playerSprite };
+	player1 = Player(playerSprites, &tiledMap, bbq::TileType::Player1);
+	player1.pos_.x = 4;
+	player1.pos_.y = 13;
 
-  std::vector<bbq::Sprite*> playerSprites2 = { &playerSprite2 };
-  player2 = Player(playerSprites2, &tiledMap, bbq::TileType::Player2);
-  player2.pos_.x = 35;
-  player2.pos_.y = 2;
+	std::vector<bbq::Sprite*> playerSprites2 = { &playerSprite2 };
+	player2 = Player(playerSprites2, &tiledMap, bbq::TileType::Player2);
+	player2.pos_.x = 35;
+	player2.pos_.y = 2;
 
-  std::vector<bbq::Sprite*> player1Sprites = { &player1SpriteAnimation };
-  player1animation = Player(player1Sprites, &tiledMap, bbq::TileType::Player1);
-  player1animation.pos_.x = 0;
-  player1animation.pos_.y = 650;
+	std::vector<bbq::Sprite*> player1Sprites = { &player1SpriteAnimation };
+	player1animation = Player(player1Sprites, &tiledMap, bbq::TileType::Player1);
+	player1animation.pos_.x = 0;
+	player1animation.pos_.y = 650;
 
-  std::vector<bbq::Sprite*> player2Sprites = { &player2SpriteAnimation };
-  player2animation = Player(player2Sprites, &tiledMap, bbq::TileType::Player2);
-  player2animation.pos_.x = 1280 - 64;
-  player2animation.pos_.y = 650;
-  player2animation.facingState_ = facingState::left;
+	std::vector<bbq::Sprite*> player2Sprites = { &player2SpriteAnimation };
+	player2animation = Player(player2Sprites, &tiledMap, bbq::TileType::Player2);
+	player2animation.pos_.x = 1280 - 64;
+	player2animation.pos_.y = 650;
+	player2animation.facingState_ = facingState::left;
 
 
-  // ! Test SpriteSheet, Sprite classes
-  bool running = true;
-  size_t iter = 0;
-  SDL_Event event;
+	// ! Test SpriteSheet, Sprite classes
 
-  int before_update_time = 0;
-  last_update_time = SDL_GetTicks();
-  float last_update_time_input = SDL_GetTicks();
-  int before_render_time = SDL_GetTicks();
-  int after_render_time = 0.0f;
-  int time_needed = 0;
-  Uint8 currentFrame = 0;
-  Uint8 currentFrame2 = 0;
-  State state = State::Running;
+	size_t iter = 0;
+	SDL_Event event;
+
+	int before_update_time = 0;
+	last_update_time = SDL_GetTicks();
+	float last_update_time_input = SDL_GetTicks();
+	int before_render_time = SDL_GetTicks();
+	int after_render_time = 0.0f;
+	int time_needed = 0;
+	Uint8 currentFrame = 0;
+	Uint8 currentFrame2 = 0;
+	State state = State::Running;
 }
 
 int main(int argc, char** argv)
@@ -263,59 +269,59 @@ int main(int argc, char** argv)
 
 
 	bbq::SpriteSheet mapSheet(gCore.getRenderer(), "..\\resources\\map\\tileset.png", 0x00000000);
-  bbq::SpriteSheet player1animationSheet(gCore.getRenderer(), "..\\resources\\map\\pigwalk_female-Sheet.png", 0x00000000);
-  bbq::SpriteSheet player2animationSheet(gCore.getRenderer(), "..\\resources\\map\\pigwalk_male-Sheet.png", 0x00000000);
-  bbq::SpriteSheet heartParticleSheet(gCore.getRenderer(), "..\\resources\\heart_particle.png", 0x00000000);
+	bbq::SpriteSheet player1animationSheet(gCore.getRenderer(), "..\\resources\\map\\pigwalk_female-Sheet.png", 0x00000000);
+	bbq::SpriteSheet player2animationSheet(gCore.getRenderer(), "..\\resources\\map\\pigwalk_male-Sheet.png", 0x00000000);
+	bbq::SpriteSheet heartParticleSheet(gCore.getRenderer(), "..\\resources\\heart_particle.png", 0x00000000);
 
 
-  bbq::SpriteSheet player1animationSheetIdle(gCore.getRenderer(), "..\\resources\\map\\pigidle_female-Sheet.png", 0x00000000);
-  bbq::SpriteSheet player2animationSheetIdle(gCore.getRenderer(), "..\\resources\\map\\pigidle_male-Sheet.png", 0x00000000);
+	bbq::SpriteSheet player1animationSheetIdle(gCore.getRenderer(), "..\\resources\\map\\pigidle_female-Sheet.png", 0x00000000);
+	bbq::SpriteSheet player2animationSheetIdle(gCore.getRenderer(), "..\\resources\\map\\pigidle_male-Sheet.png", 0x00000000);
 
 
 	bbq::Sprite mapSprite(&mapSheet, 64, 64, 0, 0, 25);
 	bbq::Sprite playerSprite(&player1animationSheetIdle, 64, 64, 0, 0, 2);
-  bbq::Sprite playerSprite2(&player2animationSheetIdle, 64, 64, 0, 0, 2);
-  bbq::Sprite player1SpriteAnimation(&player1animationSheet, 64, 64, 0, 0, 3);
-  bbq::Sprite player2SpriteAnimation(&player2animationSheet, 64, 64, 0, 0, 3);
-  heartAnimationSprite = bbq::Sprite(&heartParticleSheet, 64, 64, 0, 0, 1);
+	bbq::Sprite playerSprite2(&player2animationSheetIdle, 64, 64, 0, 0, 2);
+	bbq::Sprite player1SpriteAnimation(&player1animationSheet, 64, 64, 0, 0, 3);
+	bbq::Sprite player2SpriteAnimation(&player2animationSheet, 64, 64, 0, 0, 3);
+	heartAnimationSprite = bbq::Sprite(&heartParticleSheet, 64, 64, 0, 0, 1);
 
-  bbq::type_to_sprite[bbq::TileType::Free] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free] = 15;
-  bbq::type_to_sprite[bbq::TileType::Free2] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free2] = 13;
-  bbq::type_to_sprite[bbq::TileType::Free3] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free3] = 14;
-  bbq::type_to_sprite[bbq::TileType::Free4] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free4] = 5;
-  bbq::type_to_sprite[bbq::TileType::Free5] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free5] = 8;
-  bbq::type_to_sprite[bbq::TileType::Free6] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free6] = 2;
-  bbq::type_to_sprite[bbq::TileType::Free7] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free7] = 10;
-  bbq::type_to_sprite[bbq::TileType::Free8] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free8] = 9;
-  bbq::type_to_sprite[bbq::TileType::Free9] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free9] = 7;
-  bbq::type_to_sprite[bbq::TileType::Free10] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free10] = 3;
-  bbq::type_to_sprite[bbq::TileType::Free11] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free11] = 4;
-  bbq::type_to_sprite[bbq::TileType::Free12] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Free12] = 29;
+	bbq::type_to_sprite[bbq::TileType::Free] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free] = 15;
+	bbq::type_to_sprite[bbq::TileType::Free2] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free2] = 13;
+	bbq::type_to_sprite[bbq::TileType::Free3] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free3] = 14;
+	bbq::type_to_sprite[bbq::TileType::Free4] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free4] = 5;
+	bbq::type_to_sprite[bbq::TileType::Free5] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free5] = 8;
+	bbq::type_to_sprite[bbq::TileType::Free6] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free6] = 2;
+	bbq::type_to_sprite[bbq::TileType::Free7] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free7] = 10;
+	bbq::type_to_sprite[bbq::TileType::Free8] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free8] = 9;
+	bbq::type_to_sprite[bbq::TileType::Free9] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free9] = 7;
+	bbq::type_to_sprite[bbq::TileType::Free10] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free10] = 3;
+	bbq::type_to_sprite[bbq::TileType::Free11] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free11] = 4;
+	bbq::type_to_sprite[bbq::TileType::Free12] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Free12] = 29;
 
 	bbq::type_to_sprite[bbq::TileType::Box1] = &mapSprite;
 	bbq::type_to_sprite_idx[bbq::TileType::Box1] = 6;
-  bbq::type_to_sprite[bbq::TileType::Box2] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Box2] = 11;
+	bbq::type_to_sprite[bbq::TileType::Box2] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Box2] = 11;
 
-  bbq::type_to_sprite[bbq::TileType::Wall] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Wall] = 1;
-  bbq::type_to_sprite[bbq::TileType::Wall2] = &mapSprite;
-  bbq::type_to_sprite_idx[bbq::TileType::Wall2] = 12;
+	bbq::type_to_sprite[bbq::TileType::Wall] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Wall] = 1;
+	bbq::type_to_sprite[bbq::TileType::Wall2] = &mapSprite;
+	bbq::type_to_sprite_idx[bbq::TileType::Wall2] = 12;
 
 reset:
-  tiledMap.Load("..\\resources\\map\\Endboss.json");
+	tiledMap.Load("..\\resources\\map\\Endboss.json");
 	map = bbq::TileMap(tiledMap.width_, tiledMap.height_, &tiledMap);
 	/*
 	Player1,
@@ -327,21 +333,21 @@ reset:
 	player1.pos_.x = 4;
 	player1.pos_.y = 13;
 
-  std::vector<bbq::Sprite*> playerSprites2 = { &playerSprite2 };
+	std::vector<bbq::Sprite*> playerSprites2 = { &playerSprite2 };
 	player2 = Player(playerSprites2, &tiledMap, bbq::TileType::Player2);
 	player2.pos_.x = 35;
 	player2.pos_.y = 2;
 
-  std::vector<bbq::Sprite*> player1Sprites = { &player1SpriteAnimation };
-  player1animation = Player(player1Sprites, &tiledMap, bbq::TileType::Player1);
-  player1animation.pos_.x = 0;
-  player1animation.pos_.y = 650;
+	std::vector<bbq::Sprite*> player1Sprites = { &player1SpriteAnimation };
+	player1animation = Player(player1Sprites, &tiledMap, bbq::TileType::Player1);
+	player1animation.pos_.x = 0;
+	player1animation.pos_.y = 650;
 
-  std::vector<bbq::Sprite*> player2Sprites = { &player2SpriteAnimation };
-  player2animation = Player(player2Sprites, &tiledMap, bbq::TileType::Player2);
-  player2animation.pos_.x = 1280 - 64;
-  player2animation.pos_.y = 650;
-  player2animation.facingState_ = facingState::left;
+	std::vector<bbq::Sprite*> player2Sprites = { &player2SpriteAnimation };
+	player2animation = Player(player2Sprites, &tiledMap, bbq::TileType::Player2);
+	player2animation.pos_.x = 1280 - 64;
+	player2animation.pos_.y = 650;
+	player2animation.facingState_ = facingState::left;
 
 
 	// ! Test SpriteSheet, Sprite classes
@@ -376,10 +382,10 @@ reset:
 		if (SDL_GetTicks() - last_update_time_input > 0) // not quite what the threshold should be
 		{
 			iCore.update();
-      if (iCore.keyDown(SDL_SCANCODE_R))
-      {
-        goto reset;
-      }
+			if (iCore.keyDown(SDL_SCANCODE_R))
+			{
+				goto reset;
+			}
 
 			if (iCore.keyDown(SDL_SCANCODE_ESCAPE))
 			{
@@ -389,10 +395,10 @@ reset:
 			last_update_time_input = SDL_GetTicks();
 		}
 
-    if (state == State::Running)
-      doRunning();
-    else if (state == State::End)
-      doEnd();
+		if (state == State::Running)
+			doRunning();
+		else if (state == State::End)
+			doEnd();
 
 		// player animation:
 		if (SDL_GetTicks() - last_update_time > 75)
@@ -400,15 +406,12 @@ reset:
 			currentFrame++;
 			if (currentFrame >= player1animation.sprites_[player1animation.state_]->frameCnt_())
 				currentFrame = 0;
-      currentFrame2++;
-      if (currentFrame2 >= player2animation.sprites_[player2animation.state_]->frameCnt_())
-        currentFrame2 = 0;
+			currentFrame2++;
+			if (currentFrame2 >= player2animation.sprites_[player2animation.state_]->frameCnt_())
+				currentFrame2 = 0;
 
 			last_update_time = SDL_GetTicks();
 		}
-
-		
-
 
 
 		if (player1.pos_.x == player2.pos_.x && player1.pos_.y == player2.pos_.y)
@@ -416,17 +419,17 @@ reset:
 			state = State::End;
 		}
 
-    int deltaX = abs(player1.pos_.x - player2.pos_.x) * 32;
-    int deltaY = abs(player1.pos_.y - player2.pos_.y) * 32;
+		int deltaX = abs(player1.pos_.x - player2.pos_.x) * 32;
+		int deltaY = abs(player1.pos_.y - player2.pos_.y) * 32;
 
-    int distance = sqrt(deltaX *deltaX + deltaY*deltaY);
-    int distanceHalfed = distance / 2;
+		int distance = sqrt(deltaX *deltaX + deltaY * deltaY);
+		int distanceHalfed = distance / 2;
 
-    player1animation.pos_.x = 576 - distanceHalfed;
-    player2animation.pos_.x = 640 + distanceHalfed;
+		player1animation.pos_.x = 576 - distanceHalfed;
+		player2animation.pos_.x = 640 + distanceHalfed;
 
-    player1animation.drawAsPixels(gCore.getRenderer(), currentFrame);
-    player2animation.drawAsPixels(gCore.getRenderer(), currentFrame2);
+		player1animation.drawAsPixels(gCore.getRenderer(), currentFrame);
+		player2animation.drawAsPixels(gCore.getRenderer(), currentFrame2);
 
 		SDL_RenderPresent(gCore.getRenderer());
 		//SDL_Delay(100); // artificial render time 
@@ -441,8 +444,9 @@ reset:
 
 	}
 
-	SDL_CloseAudioDevice(bbq::deviceId);
-
+	//SDL_CloseAudioDevice(bbq::deviceId);
+	SDL_DestroyRenderer(gCore.renderer_);
+	SDL_DestroyWindow(gCore.window_);
 	SDL_Quit();
 
 	return 0;

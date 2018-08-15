@@ -51,9 +51,6 @@ public:
   bbq::Map* map_;
   bbq::TileType playerType_;
 
-  SDL_AudioSpec wavSpec;
-  Uint32 wavLength;
-  Uint8 *wavBuffer;
 
 };
 
