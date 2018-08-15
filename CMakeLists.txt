@@ -3,12 +3,17 @@ cmake_minimum_required(VERSION 3.6)
 project(Barbecue)
 
 #set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
-set(SDL2_DIR "${CMAKE_SOURCE_DIR}/ThirdParty/SDL2-2.0.5")
+#set(SDL2_DIR "${CMAKE_SOURCE_DIR}/ThirdParty/SDL2-2.0.5")
 
-set(SDL2_IMAGE_LIBRARY "${CMAKE_SOURCE_DIR}/ThirdParty/SDL2_image-2.0.1/lib/x64/SDL2_image.lib")
-set(SDL2_IMAGE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/ThirdParty/SDL2_image-2.0.1/include")
+set(SDL2_LIBRARY "${CMAKE_SOURCE_DIR}/ThirdParty/SDL2-2.0.8/lib/x64/SDL2.lib")
+set(SDL2_MAIN_LIBRARY "${CMAKE_SOURCE_DIR}/ThirdParty/SDL2-2.0.8/lib/x64/SDL2main.lib")
+set(SDL2_TEST_LIBRARY "${CMAKE_SOURCE_DIR}/ThirdParty/SDL2-2.0.8/lib/x64/SDL2test.lib")
+set(SDL2_IMAGE_LIBRARY "${CMAKE_SOURCE_DIR}/ThirdParty/SDL2_image-2.0.3/lib/x64/SDL2_image.lib")
 
-find_package(SDL2 REQUIRED)
+set(SDL2_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/ThirdParty/SDL2-2.0.8/include")
+set(SDL2_IMAGE_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/ThirdParty/SDL2_image-2.0.3/include")
+
+#find_package(SDL2 REQUIRED)
 #find_package(SDL2_image REQUIRED)
 
 ## executable target
@@ -21,6 +26,10 @@ include_directories(${SDL2_INCLUDE_DIRS}
                      )
 
 set(SDL2_IMAGE_LIBRARIES ${SDL2_IMAGE_LIBRARY})
+set(SDL2_LIBRARIES ${SDL2_LIBRARY}
+				   ${SDL2_MAIN_LIBRARY}
+				   ${SDL2_TEST_LIBRARY}
+					)
 
 add_executable(Barbecue 
 	src/main.cpp
