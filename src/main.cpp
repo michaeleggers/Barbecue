@@ -43,6 +43,7 @@ bbq::TileMap map;
 
 int last_update_time = 0;
 bool running = true;
+bool isFullscreen = 0; // windowed mode
 //SDL_AudioSpec wavSpec;
 //Uint32 wavLength;
 //Uint8 *wavBuffer;
@@ -351,7 +352,6 @@ reset:
 
 
 	// ! Test SpriteSheet, Sprite classes
-	bool running = true;
 	size_t iter = 0;
 	SDL_Event event;
 
@@ -385,6 +385,20 @@ reset:
 			if (iCore.keyDown(SDL_SCANCODE_R))
 			{
 				goto reset;
+			}
+
+			if (iCore.keyHit(SDL_SCANCODE_F))
+			{
+				if (!isFullscreen)
+				{
+					SDL_SetWindowFullscreen(gCore.window_, SDL_WINDOW_FULLSCREEN_DESKTOP);
+					isFullscreen = true;
+				}
+				else
+				{
+					SDL_SetWindowFullscreen(gCore.window_, 0);
+					isFullscreen = false;
+				}
 			}
 
 			if (iCore.keyDown(SDL_SCANCODE_ESCAPE))
