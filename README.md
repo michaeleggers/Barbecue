@@ -1,6 +1,8 @@
 # Barbecue
 Two Player Sokoban-Clone. Made at the Barbecue Gamejam 2017 within 8 hrs.
 
+![alt text](https://github.com/michaeleggers/Barbecue/blob/master/readmeassets/bbq.png "gameplay")
+
 This was our first jam.
 
 There is quite a bit of code smell going on but that's ok. The goal was to actually get something done rather than aiming for the best possible design.
